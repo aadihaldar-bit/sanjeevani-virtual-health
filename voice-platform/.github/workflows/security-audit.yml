@@ -1,0 +1,112 @@
+# ============================================================
+#  STL Voice Agent — Comprehensive Security Audit Pipeline
+#  Includes SAST, DAST, SCA, Secrets Scanning & Container Scanning
+#  Generates beautifully-formatted, downloadable HTML reports.
+# ============================================================
+
+name: "🛡️ Comprehensive Security Audit"
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # Every Monday 06:00 UTC
+  pull_request:
+    branches: [ "main", "dev" ]
+  workflow_dispatch:      # Allow manual trigger
+
+env:
+  GCP_PROJECT_ID:        ${{ secrets.GCP_PROJECT_ID || 'voicebot-support' }}
+  GCP_REGION:            ${{ secrets.GCP_REGION || 'us-central1' }}
+  BACKEND_SERVICE_NAME:  stld-voice-bot
+  DEV_TARGET_URL:        https://us-central1-voicebot-support.cloudfunctions.net/stld-voice-bot-dev
+
+jobs:
+  # ─── JOB 1: Secrets & Gitleaks Scan ──────────────────────
+  secret-scan:
+    name: "🔑 Secret Leak Detection (Gitleaks)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─── JOB 2: Snyk SAST (Static Code) & SCA (Dependencies) ─
+  snyk-security:
+    name: "🛡️ Snyk SAST & SCA Security Audit"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Snyk CLI & snyk-to-html reporter
+        run: |
+          npm install -g snyk snyk-to-html
+
+      - name: Authenticate Snyk CLI
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # --- Python Backend Scans ---
+      - name: Backend SCA Scan (Dependencies)
+        run: |
+          snyk test --file=backend/requirements.txt --json | snyk-to-html -o snyk-python-sca-report.html || true
+
+      - name: Backend SAST Scan (Code)
+        run: |
+          snyk code test backend/ --json | snyk-to-html -o snyk-python-sast-report.html || true
+
+      # --- Node.js Frontend Scans ---
+      - name: Frontend Dependencies Audit (SCA)
+        run: |
+          cd frontend && npm ci --ignore-scripts && cd ..
+          snyk test --dir=frontend/ --json | snyk-to-html -o snyk-node-sca-report.html || true
+
+      - name: Frontend SAST Scan (Code)
+        run: |
+          snyk code test frontend/ --json | snyk-to-html -o snyk-node-sast-report.html || true
+
+      # --- Upload Downloadable Reports ---
+      - name: Upload Snyk Security Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snyk-Security-Reports-HTML
+          path: |
+            snyk-python-sca-report.html
+            snyk-python-sast-report.html
+            snyk-node-sca-report.html
+            snyk-node-sast-report.html
+          retention-days: 30
+
+  # ─── JOB 3: OWASP ZAP DAST API Scan ──────────────────────
+  owasp-zap-dast:
+    name: "🕸️ OWASP ZAP DAST API Audit"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: OWASP ZAP API DAST Scan
+        uses: zaproxy/action-api-scan@v0.9.0
+        with:
+          target: '${{ env.DEV_TARGET_URL }}/openapi.json'
+          format: 'openapi'
+          fail_action: false
+          cmd_options: '-r zap_report.html'
+
+      - name: Upload OWASP ZAP DAST Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: OWASP-ZAP-DAST-Report
+          path: |
+            zap_report.html
+          retention-days: 30

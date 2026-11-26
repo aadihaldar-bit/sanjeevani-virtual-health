@@ -1,0 +1,18 @@
+sequenceDiagram
+  participant D as Doctor or staff
+  participant W as Care-plan web app
+  participant P as Planner agent
+  participant V as Voice agent
+  participant PT as Patient
+  D->>W: Upload prescription
+  W->>P: Read and plan
+  P-->>W: Care plan, medicine end dates, follow-up
+  W->>V: Prescription brief
+  V->>PT: Outbound call in calling hours
+  PT->>V: Date of birth
+  V->>V: Identity gate passes
+  V->>PT: Explains each medicine, answers questions
+  PT->>V: Book a follow-up visit
+  V->>V: find_doctors, quote_visit_cost, book
+  V-->>W: Call ended: outcome and reference
+  W->>D: Booked, shown on the timeline

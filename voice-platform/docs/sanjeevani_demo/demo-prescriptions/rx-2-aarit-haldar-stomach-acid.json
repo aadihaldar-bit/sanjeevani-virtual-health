@@ -1,0 +1,40 @@
+[
+  {
+    "patient": {
+      "username": "aarit.haldar"
+    },
+    "prescription": {
+      "external_id": "DEMO-RX-AARIT-1",
+      "doctor_name": "Dr. Layla Nasser",
+      "facility": "Sanjeevani (demo)",
+      "course_days": 14,
+      "extra_instruction": "Avoid very spicy and oily food while on the course."
+    },
+    "items": [
+      {
+        "drug_name": "Pantoprazole",
+        "strength": "40 mg",
+        "form": "tablet",
+        "dose_text": "1 tablet",
+        "frequency_per_day": 1,
+        "timing": "in the morning, 30 minutes before breakfast",
+        "duration_days": 14,
+        "status": "confirmed",
+        "plain_summary_en": "Pantoprazole lowers the acid in your stomach and helps heartburn heal. Take one tablet in the morning, half an hour before breakfast.",
+        "plain_summary_ar": "البانتوبرازول يقلل حمض المعدة ويساعد على شفاء حرقة المعدة. تناول قرصاً واحداً صباحاً قبل الفطور بنصف ساعة."
+      },
+      {
+        "drug_name": "Vitamin D3",
+        "strength": "60000 IU",
+        "form": "sachet",
+        "dose_text": "1 sachet",
+        "frequency_per_day": 1,
+        "timing": "once a week, mixed in milk",
+        "duration_days": 14,
+        "status": "confirmed",
+        "plain_summary_en": "Vitamin D3 is a weekly supplement for your bones. Mix one sachet in a glass of milk once a week.",
+        "plain_summary_ar": "فيتامين د3 مكمل أسبوعي لعظامك. اخلط كيساً واحداً في كوب حليب مرة في الأسبوع."
+      }
+    ]
+  }
+]

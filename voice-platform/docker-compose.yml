@@ -1,0 +1,152 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ─── Qdrant Vector Database ──────────────────────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: voice_agent_qdrant
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    ports:
+      - "127.0.0.1:6333:6333"   # REST API & Web Dashboard
+      - "127.0.0.1:6334:6334"   # gRPC API
+    volumes:
+      - qdrant_data:/qdrant/storage:z
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6333/readyz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ─── PostgreSQL Database ─────────────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: voice_agent_postgres
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: voiceagent
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  # ─── Redis Cache / Message Broker ────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: voice_agent_redis
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  # ─── Voice Bot FastAPI Backend ───────────────────────────────────────────────
+  backend:
+    build: ./backend
+    container_name: stl-voicebot-backend
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    ports:
+      - "8001:8055"
+      - "8055:8055"
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      - PORT=8055
+      - BACKEND_PORT=8055
+      - QDRANT_URL=http://qdrant:6333
+      - VECTOR_DB_PROVIDER=qdrant
+      - DATABASE_URL=sqlite+aiosqlite:///./voice_agent.db
+      - REDIS_URL=redis://redis:6379/0
+      - REQUIRE_FIREBASE_AUTH=true
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/gcs-credentials.json
+      - GCS_LOG_BUCKET=stld-bkt-data-prod-voicebot-log-uscentral01-001
+    volumes:
+      - ./backend/qdrant_data:/app/qdrant_data
+      - ./backend/knowledge_base:/app/knowledge_base
+      - ./backend/app:/app/app
+      - ./data/voice_agent.db:/app/voice_agent.db
+      - ./secrets:/app/secrets:ro
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8055/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # ─── Next.js 15 Frontend Dashboard ──────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: stl-voicebot-frontend
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8001
+      - NEXT_PUBLIC_DISABLE_AUTH=true
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ─── Patient identity verification ML (face match, liveness, Aadhaar QR) ───────
+  # Isolated on purpose: heavy ONNX models live here so the live voice backend is never
+  # affected. No published port — only the backend reaches it at http://kyc-ml:9000.
+  kyc-ml:
+    build: ./kyc_service
+    image: stl-voicebot-kyc-ml:latest
+    container_name: stl-voicebot-kyc-ml
+    env_file:
+      - ./kyc_service/kyc.env        # KYC_INTERNAL_KEY, KYC_DEMO_MODE  (NOT in git)
+    environment:
+      - KYC_DEMO_KEY_PATH=/data/demo_key.pem
+    volumes:
+      - kyc_data:/data
+    mem_limit: 1800m
+    cpus: 1.5
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+    expose:
+      - "9000"
+    restart: unless-stopped
+
+volumes:
+  kyc_data:
+  qdrant_data:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,10 @@
+# Just what the tests import. The vitals libraries (numpy, opencv, mediapipe, onnxruntime) are not needed to test the app's logic.
+fastapi>=0.100.0
+httpx>=0.24.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+python-dotenv>=1.0.0
+google-genai>=1.0.0
+Pillow>=10.0.0
+pymongo>=4.0.0
+pytest>=8.0.0

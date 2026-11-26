@@ -1,0 +1,26 @@
+# Gitleaks Configuration for STL Voice Agent
+title = "STL Voice Agent Gitleaks Configuration"
+
+[allowlist]
+description = "Global allowlist for dummy test credentials, fixtures, and legacy scrubbed commits"
+commits = [
+  "85c0d5df1509bf1a1efc29f252a89e5567bd74a7",
+]
+regexTarget = "match"
+regexes = [
+  '''sk-local''',
+  '''test_sid''',
+  '''test_token''',
+  '''test_key''',
+  '''test_agent''',
+  '''demo_token''',
+  '''demo-key''',
+  '''CA[0-9a-f]{32}''', # Mock Twilio Call SIDs in documentation
+]
+paths = [
+  '''^\.gitleaks\.toml$''',
+  '''^tests/''',
+  '''^frontend/lib/docsData\.ts$''',
+  '''^frontend/package-lock\.json$''',
+]
+

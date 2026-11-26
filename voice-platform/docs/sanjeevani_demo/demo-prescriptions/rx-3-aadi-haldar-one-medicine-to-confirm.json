@@ -1,0 +1,38 @@
+[
+  {
+    "patient": {
+      "username": "aadi.haldar"
+    },
+    "prescription": {
+      "external_id": "DEMO-RX-AADI-2",
+      "doctor_name": "Dr. Karim Haddad",
+      "facility": "Sanjeevani (demo)",
+      "course_days": 3
+    },
+    "items": [
+      {
+        "drug_name": "Azithromycin",
+        "form": "tablet",
+        "frequency_per_day": 1,
+        "duration_days": 3,
+        "status": "needs_clarification",
+        "open_question": "The tablet strength reads 250 mg or 500 mg. Which did the doctor mean?",
+        "plain_summary_en": "Azithromycin is an antibiotic, taken once a day for three days. I want to be careful with this one, because the strength on the note was not clear, so our pharmacist will confirm it with you.",
+        "plain_summary_ar": "الأزيثرومايسين مضاد حيوي يؤخذ مرة يومياً لمدة ثلاثة أيام. سأكون حذراً لأن التركيز المكتوب لم يكن واضحاً، وسيؤكده لك الصيدلي."
+      },
+      {
+        "drug_name": "Paracetamol",
+        "strength": "500 mg",
+        "form": "tablet",
+        "dose_text": "1 tablet",
+        "frequency_per_day": 4,
+        "timing": "every 6 hours, only when you have a fever or pain",
+        "duration_days": 3,
+        "status": "confirmed",
+        "plain_summary_en": "Paracetamol brings down a fever and eases aches and pains. Take one tablet every six hours, only when you need it.",
+        "plain_summary_ar": "الباراسيتامول يخفض الحرارة ويخفف الآلام. تناول قرصاً واحداً كل ست ساعات، فقط عند الحاجة.",
+        "warnings": "Do not take any other medicine that contains paracetamol with it."
+      }
+    ]
+  }
+]

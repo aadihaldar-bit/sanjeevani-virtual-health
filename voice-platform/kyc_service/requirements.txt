@@ -1,0 +1,12 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+python-multipart==0.0.9
+numpy==1.26.4
+opencv-python-headless==4.9.0.80
+onnxruntime==1.18.1
+insightface==0.7.3
+zxing-cpp==2.2.0
+Pillow==10.4.0
+cryptography==43.0.1
+segno==1.6.1
+pypdfium2==4.30.0

@@ -1,0 +1,143 @@
+{
+  "clinic": "STL City Care Multi-Specialty Clinic",
+  "note": "Fabricated demo data — not real doctors, fees, or availability.",
+  "doctors": [
+    {
+      "id": "DOC-GP-S", "name": "Dr. Anjali Rao", "specialty": "General Physician",
+      "seniority": "Senior Consultant", "experience_years": 16, "fee": 800,
+      "role": "General Physician (first point of contact)",
+      "treats": ["fever", "cold", "cough", "flu", "body ache", "fatigue", "general checkup", "checkup", "infection", "weakness", "not feeling well", "tiredness", "viral"],
+      "availability": ["Mon 10:00-13:00", "Wed 10:00-13:00", "Fri 10:00-13:00"]
+    },
+    {
+      "id": "DOC-GP-J", "name": "Dr. Karan Malhotra", "specialty": "General Physician",
+      "seniority": "Junior Resident", "experience_years": 3, "fee": 400,
+      "role": "General Physician (resident)",
+      "treats": ["fever", "cold", "cough", "flu", "body ache", "fatigue", "general checkup", "checkup", "infection", "weakness", "not feeling well", "tiredness", "viral"],
+      "availability": ["Mon 09:00-17:00", "Tue 09:00-17:00", "Wed 09:00-17:00", "Thu 09:00-17:00", "Fri 09:00-17:00"]
+    },
+    {
+      "id": "DOC-CARD-S", "name": "Dr. Vikram Nair", "specialty": "Cardiologist",
+      "seniority": "Senior Consultant", "experience_years": 20, "fee": 2000,
+      "role": "Heart & cardiovascular specialist",
+      "treats": ["palpitations", "high blood pressure", "bp", "blood pressure", "heart", "cholesterol", "heart racing"],
+      "availability": ["Tue 14:00-17:00", "Thu 14:00-17:00"]
+    },
+    {
+      "id": "DOC-CARD-J", "name": "Dr. Riya Sharma", "specialty": "Cardiologist",
+      "seniority": "Junior Resident", "experience_years": 4, "fee": 900,
+      "role": "Cardiology resident",
+      "treats": ["palpitations", "high blood pressure", "bp", "blood pressure", "heart", "cholesterol", "heart racing"],
+      "availability": ["Mon 09:00-13:00", "Wed 09:00-13:00", "Fri 09:00-13:00"]
+    },
+    {
+      "id": "DOC-DERM-S", "name": "Dr. Priya Menon", "specialty": "Dermatologist",
+      "seniority": "Senior Consultant", "experience_years": 14, "fee": 1500,
+      "role": "Skin, hair & nail specialist",
+      "treats": ["skin", "rash", "acne", "pimple", "pimples", "breakout", "breakouts", "hair fall", "allergy", "itching", "itchy", "eczema", "pigmentation", "skin breakout", "mole", "wart", "freckle", "cyst", "boil", "flaky", "patches", "scalp", "hives", "dry skin", "peeling"],
+      "availability": ["Mon 11:00-15:00", "Thu 11:00-15:00"]
+    },
+    {
+      "id": "DOC-DERM-J", "name": "Dr. Aditya Verma", "specialty": "Dermatologist",
+      "seniority": "Junior Resident", "experience_years": 3, "fee": 700,
+      "role": "Dermatology resident",
+      "treats": ["skin", "rash", "acne", "pimple", "pimples", "breakout", "breakouts", "hair fall", "allergy", "itching", "itchy", "eczema", "pigmentation", "skin breakout", "mole", "wart", "freckle", "cyst", "boil", "flaky", "patches", "scalp", "hives", "dry skin", "peeling"],
+      "availability": ["Tue 09:00-16:00", "Wed 09:00-16:00", "Fri 09:00-16:00"]
+    },
+    {
+      "id": "DOC-ORTHO-S", "name": "Dr. Rahul Deshpande", "specialty": "Orthopedic",
+      "seniority": "Senior Consultant", "experience_years": 18, "fee": 1500,
+      "role": "Bone, joint & muscle specialist",
+      "treats": ["back pain", "knee pain", "joint pain", "fracture", "sprain", "sprained", "bone", "shoulder pain", "arthritis", "twisted", "twisted ankle", "ankle", "swollen ankle", "swollen joint", "swollen knee", "painful to walk", "can't walk", "limp", "leg pain", "leg", "hip", "thigh", "calf", "wrist", "elbow", "muscle"],
+      "availability": ["Wed 09:00-12:00", "Fri 09:00-12:00"]
+    },
+    {
+      "id": "DOC-ORTHO-J", "name": "Dr. Sneha Pillai", "specialty": "Orthopedic",
+      "seniority": "Junior Resident", "experience_years": 4, "fee": 700,
+      "role": "Orthopedics resident",
+      "treats": ["back pain", "knee pain", "joint pain", "fracture", "sprain", "sprained", "bone", "shoulder pain", "arthritis", "twisted", "twisted ankle", "ankle", "swollen ankle", "swollen joint", "swollen knee", "painful to walk", "can't walk", "limp", "leg pain", "leg", "hip", "thigh", "calf", "wrist", "elbow", "muscle"],
+      "availability": ["Mon 09:00-16:00", "Tue 09:00-16:00", "Thu 09:00-16:00"]
+    },
+    {
+      "id": "DOC-PED-S", "name": "Dr. Sana Kapoor", "specialty": "Pediatrician",
+      "seniority": "Senior Consultant", "experience_years": 15, "fee": 1200,
+      "role": "Child & infant health specialist",
+      "treats": ["child fever", "child", "baby", "infant", "vaccination", "kid cough", "pediatric", "toddler", "year old", "years old", "year-old", "month old", "months old", "my son", "my daughter", "my kid", "my child"],
+      "availability": ["Mon 15:00-18:00", "Tue 15:00-18:00", "Wed 15:00-18:00", "Thu 15:00-18:00", "Fri 15:00-18:00"]
+    },
+    {
+      "id": "DOC-PED-J", "name": "Dr. Imran Qureshi", "specialty": "Pediatrician",
+      "seniority": "Junior Resident", "experience_years": 3, "fee": 600,
+      "role": "Pediatrics resident",
+      "treats": ["child fever", "child", "baby", "infant", "vaccination", "kid cough", "pediatric", "toddler", "year old", "years old", "year-old", "month old", "months old", "my son", "my daughter", "my kid", "my child"],
+      "availability": ["Mon 09:00-14:00", "Tue 09:00-14:00", "Wed 09:00-14:00", "Thu 09:00-14:00", "Fri 09:00-14:00"]
+    },
+    {
+      "id": "DOC-ENT-S", "name": "Dr. Arjun Iyer", "specialty": "ENT Specialist",
+      "seniority": "Senior Consultant", "experience_years": 13, "fee": 1200,
+      "role": "Ear, nose & throat specialist",
+      "treats": ["ear pain", "earache", "sore throat", "sinus", "nose", "hearing", "tonsils", "throat infection", "blocked nose"],
+      "availability": ["Tue 10:00-13:00", "Fri 10:00-13:00"]
+    },
+    {
+      "id": "DOC-ENT-J", "name": "Dr. Nisha Reddy", "specialty": "ENT Specialist",
+      "seniority": "Junior Resident", "experience_years": 3, "fee": 600,
+      "role": "ENT resident",
+      "treats": ["ear pain", "earache", "sore throat", "sinus", "nose", "hearing", "tonsils", "throat infection", "blocked nose"],
+      "availability": ["Mon 09:00-15:00", "Wed 09:00-15:00", "Thu 09:00-15:00"]
+    },
+    {
+      "id": "DOC-NEURO-S", "name": "Dr. Meera Joshi", "specialty": "Neurologist",
+      "seniority": "Senior Consultant", "experience_years": 17, "fee": 2000,
+      "role": "Brain & nervous system specialist",
+      "treats": ["migraine", "numbness", "dizziness", "nerve", "memory", "chronic headache", "one-sided headache", "one sided headache", "photophobia", "light sensitivity", "sensitivity to light", "sensitive to light", "severe headache", "headache", "one side", "side of my head", "side of head", "half my head", "bright light", "light bothering", "light bothers", "light hurts", "throbbing"],
+      "availability": ["Wed 14:00-17:00"]
+    },
+    {
+      "id": "DOC-NEURO-J", "name": "Dr. Arnav Rao", "specialty": "Neurologist",
+      "seniority": "Junior Resident", "experience_years": 4, "fee": 900,
+      "role": "Neurology resident",
+      "treats": ["migraine", "numbness", "dizziness", "nerve", "memory", "chronic headache", "one-sided headache", "one sided headache", "photophobia", "light sensitivity", "sensitivity to light", "sensitive to light", "severe headache", "headache", "one side", "side of my head", "side of head", "half my head", "bright light", "light bothering", "light bothers", "light hurts", "throbbing"],
+      "availability": ["Mon 09:00-13:00", "Tue 09:00-13:00", "Thu 09:00-13:00"]
+    },
+    {
+      "id": "DOC-GASTRO-S", "name": "Dr. Kabir Shah", "specialty": "Gastroenterologist",
+      "seniority": "Senior Consultant", "experience_years": 16, "fee": 1800,
+      "role": "Digestive system specialist",
+      "treats": ["stomach pain", "acidity", "indigestion", "constipation", "diarrhea", "gastric", "liver", "nausea", "bloating", "heartburn", "acid reflux", "reflux", "acid", "gas", "burning after"],
+      "availability": ["Thu 10:00-13:00"]
+    },
+    {
+      "id": "DOC-GASTRO-J", "name": "Dr. Tara Menon", "specialty": "Gastroenterologist",
+      "seniority": "Junior Resident", "experience_years": 3, "fee": 800,
+      "role": "Gastroenterology resident",
+      "treats": ["stomach pain", "acidity", "indigestion", "constipation", "diarrhea", "gastric", "liver", "nausea", "bloating", "heartburn", "acid reflux", "reflux", "acid", "gas", "burning after"],
+      "availability": ["Mon 10:00-15:00", "Wed 10:00-15:00", "Fri 10:00-15:00"]
+    },
+    {
+      "id": "DOC-DENT-S", "name": "Dr. Neha Gupta", "specialty": "Dentist",
+      "seniority": "Senior Consultant", "experience_years": 12, "fee": 1000,
+      "role": "Dental & oral health specialist",
+      "treats": ["tooth", "toothache", "tooth pain", "gum", "gums", "swollen gums", "jaw", "dental", "cavity", "wisdom tooth", "oral", "bleeding gums"],
+      "availability": ["Mon 09:00-12:00", "Wed 09:00-12:00", "Fri 14:00-17:00"]
+    },
+    {
+      "id": "DOC-DENT-J", "name": "Dr. Rohit Saxena", "specialty": "Dentist",
+      "seniority": "Junior Resident", "experience_years": 3, "fee": 500,
+      "role": "Dental resident",
+      "treats": ["tooth", "toothache", "tooth pain", "gum", "gums", "swollen gums", "jaw", "dental", "cavity", "wisdom tooth", "oral", "bleeding gums"],
+      "availability": ["Mon 09:00-16:00", "Tue 09:00-16:00", "Thu 09:00-16:00"]
+    }
+  ],
+  "insurers": {
+    "global health secure": {"name": "Global Health Secure", "coverage": 0.8, "id_prefix": "GHS"},
+    "ghs": {"name": "Global Health Secure", "coverage": 0.8, "id_prefix": "GHS"},
+    "star health": {"name": "Star Health", "coverage": 0.7, "id_prefix": "STAR"},
+    "hdfc ergo": {"name": "HDFC ERGO", "coverage": 0.75, "id_prefix": "HE"},
+    "icici lombard": {"name": "ICICI Lombard", "coverage": 0.7, "id_prefix": "IL"},
+    "max bupa": {"name": "Max Bupa", "coverage": 0.8, "id_prefix": "MB"},
+    "niva bupa": {"name": "Niva Bupa", "coverage": 0.8, "id_prefix": "NB"},
+    "aditya birla": {"name": "Aditya Birla Health", "coverage": 0.75, "id_prefix": "ABH"},
+    "care health": {"name": "Care Health", "coverage": 0.7, "id_prefix": "CH"}
+  }
+}

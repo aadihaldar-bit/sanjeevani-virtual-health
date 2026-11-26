@@ -1,0 +1,19 @@
+flowchart LR
+  RX["Prescription: photo, PDF or text"] --> EX["Reader agent: vision extraction"]
+  EX --> RS["Planner agent: care plan, dates, follow-up"]
+  RS -->|"model fails or times out"| FB["Fallback: next model, then rule-based plan"]
+  RS --> CP["Care plan on screen"]
+  FB --> CP
+  CP --> SC["Scheduler: outbound call in calling hours"]
+  SC --> FD["Front desk agent"]
+  FD -->|"route_to"| AD["Appointment desk: find_doctors, quote_visit_cost, book"]
+  FD -->|"route_to"| PD["Pharmacy desk: order, payment link, delivery"]
+  FD -->|"route_to"| FBD["Feedback desk: record, raise follow-up"]
+  AD --> GATE{"Identity and tool gate"}
+  PD --> GATE
+  FBD --> GATE
+  GATE -->|"call ended callback"| CP
+  CP --> AL["Alerts agent: refills and vitals"]
+  AL -->|"staff press Call now"| SC
+  CP --> CH["Chat agent: answers from the plan only"]
+  style GATE fill:#FDECEC,stroke:#E10600

@@ -1,0 +1,54 @@
+[
+  {
+    "patient": {
+      "username": "aadi.haldar"
+    },
+    "prescription": {
+      "external_id": "DEMO-RX-AADI-1",
+      "doctor_name": "Dr. Karim Haddad",
+      "facility": "Sanjeevani (demo)",
+      "course_days": 5,
+      "extra_instruction": "Rest, drink plenty of fluids, and keep a note of your temperature."
+    },
+    "items": [
+      {
+        "drug_name": "Paracetamol",
+        "strength": "500 mg",
+        "form": "tablet",
+        "dose_text": "1 tablet",
+        "frequency_per_day": 4,
+        "timing": "every 6 hours, only when you have a fever or pain",
+        "duration_days": 5,
+        "status": "confirmed",
+        "plain_summary_en": "Paracetamol brings down a fever and eases aches and pains. Take one tablet every six hours, only when you need it.",
+        "plain_summary_ar": "الباراسيتامول يخفض الحرارة ويخفف الآلام. تناول قرصاً واحداً كل ست ساعات، فقط عند الحاجة.",
+        "warnings": "Do not take any other medicine that contains paracetamol with it."
+      },
+      {
+        "drug_name": "Cetirizine",
+        "strength": "10 mg",
+        "form": "tablet",
+        "dose_text": "1 tablet",
+        "frequency_per_day": 1,
+        "timing": "at bedtime",
+        "duration_days": 5,
+        "status": "confirmed",
+        "plain_summary_en": "Cetirizine is an allergy tablet that helps with a runny nose and sneezing. Take one tablet at bedtime.",
+        "plain_summary_ar": "السيتريزين دواء للحساسية يساعد على الرشح والعطس. تناول قرصاً واحداً قبل النوم.",
+        "warnings": "It can make you sleepy, so do not drive after taking it."
+      },
+      {
+        "drug_name": "Amoxicillin",
+        "strength": "500 mg",
+        "form": "capsule",
+        "dose_text": "1 capsule",
+        "frequency_per_day": 3,
+        "timing": "three times a day, with water",
+        "duration_days": 5,
+        "status": "confirmed",
+        "plain_summary_en": "Amoxicillin is an antibiotic for a bacterial infection. Take one capsule three times a day, and finish all five days even if you feel better.",
+        "plain_summary_ar": "الأموكسيسيلين مضاد حيوي لعدوى بكتيرية. تناول كبسولة ثلاث مرات يومياً، وأكمل الأيام الخمسة كلها حتى لو شعرت بتحسن."
+      }
+    ]
+  }
+]

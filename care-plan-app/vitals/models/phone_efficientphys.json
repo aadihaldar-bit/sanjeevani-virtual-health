@@ -1,0 +1,25 @@
+{
+  "chunk": 180,
+  "frame_depth": 10,
+  "size": 72,
+  "box_coef": 1.5,
+  "fps": 30,
+  "trained_on": 42,
+  "dataset": "UBFC-rPPG DATASET_2, re-encoded as phone H.264/H.265",
+  "base": "rPPG-Toolbox PURE_EfficientPhys",
+  "made": "2026-11-01",
+  "hr_mae_bpm_30s": {
+    "raw": 2.1,
+    "h264_2.5M": 2.7,
+    "h264_1.2M": 2.3,
+    "hevc_1.5M": 2.0,
+    "hevc_0.6M": 2.6
+  },
+  "hrv_timing_noise_ms": 18.3,
+  "hrv_noise_var_ms2": 336.4,
+  "hrv_error_ms": {
+    "rmssd": 17.0,
+    "sdnn": 12.0
+  },
+  "licence": "rPPG-Toolbox Responsible AI licence: no insurance premium/claim decisions, no diagnosis without human oversight, no surveillance. UBFC: research use."
+}

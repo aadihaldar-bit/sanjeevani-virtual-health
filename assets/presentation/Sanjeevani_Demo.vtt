@@ -1,0 +1,43 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:08.330
+This is Sanjeevani Virtual Health. It turns one prescription into care that goes home with the patient.
+
+00:00:10.930 --> 00:00:14.870
+Start from the prescription, or try a sample.
+
+00:00:16.650 --> 00:00:24.040
+Add the patient, and create the care plan. Our AI reads the prescription in seconds.
+
+00:00:27.670 --> 00:00:31.770
+A plan in plain words, from the doctor's note.
+
+00:00:32.950 --> 00:00:38.810
+Every medicine, dose and end date. And a voice call to explain them.
+
+00:00:39.630 --> 00:00:45.490
+The next visit is in the plan too, and the assistant can phone the patient to book it.
+
+00:00:47.470 --> 00:00:52.270
+Medicines are checked against the prescription, and delivered the same day.
+
+00:00:53.050 --> 00:01:00.350
+Questions are answered from the plan. It never diagnoses, and never changes a medicine.
+
+00:01:04.570 --> 00:01:10.310
+Or book a doctor in a few taps: the doctor, the day, and a free time.
+
+00:01:14.140 --> 00:01:28.370
+Patients can also just phone in. The voice agent finds a doctor, quotes the fee after insurance, books the slot, and reads back the reference. It only says what its tools returned.
+
+00:01:30.580 --> 00:01:47.430
+Behind it all, specialised agents work as one loop. The planner builds the care plan, and recovers if a model fails. Each call goes to a desk that acts only through tools, behind an identity gate. And a person stays in charge.
+
+00:01:48.480 --> 00:02:06.840
+For a vitals check, the patient records one minute of their face. Our pipeline runs four pulse methods, including our fine-tuned phone-video model, and weighs them by signal quality. Nine readings come back, each with a confidence label, and the video is deleted once it is read.
+
+00:02:07.880 --> 00:02:11.410
+And lab samples can be collected at home.
+
+00:02:12.900 --> 00:02:17.050
+Sanjeevani. Care that goes home with you.

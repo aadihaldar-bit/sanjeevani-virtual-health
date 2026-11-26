@@ -1,0 +1,76 @@
+{
+  "note": "DEMO VALUES for the Sanjeevani recording. Doctors, fees, hours and insurers are made up; replace them with the real directory before any real patient call.",
+  "currency": "AED",
+  "timezone": "Asia/Dubai",
+  "slot_minutes": 30,
+  "specialties": {
+    "General Medicine": {
+      "keywords": ["fever", "cold", "flu", "cough", "sore throat", "fatigue", "tired", "body ache", "weakness", "headache", "stomach", "nausea", "vomiting", "diarrhea", "diarrhoea", "infection", "diabetes", "sugar", "blood pressure", "hypertension", "checkup", "check-up"],
+      "ask_about": ["how many days has it been going on", "whether there is a fever and how high", "any cough, sore throat or runny nose", "any vomiting, loose motions or stomach pain", "any other medical condition or regular medicine"]
+    },
+    "Pediatrics": {
+      "keywords": ["child", "my son", "my daughter", "my kid", "baby", "infant", "toddler", "newborn", "vaccination", "vaccine", "growth", "teething"],
+      "ask_about": ["the child's age", "how high the fever is and for how many days", "whether the child is eating and drinking", "any rash, vomiting or loose motions", "whether the child is unusually sleepy"]
+    },
+    "Cardiology": {
+      "keywords": ["chest pain", "chest tightness", "palpitation", "palpitations", "heart", "breathless", "shortness of breath", "irregular heartbeat", "cholesterol", "high bp"],
+      "ask_about": ["when the chest discomfort comes (rest, effort, after food)", "whether it spreads to the arm, jaw or back", "any sweating, dizziness or breathlessness", "any family history of heart problems"]
+    },
+    "Dermatology": {
+      "keywords": ["rash", "skin", "itching", "itch", "acne", "pimple", "eczema", "allergy", "hair fall", "hair loss", "dandruff", "psoriasis", "fungal", "hives"],
+      "ask_about": ["where on the body it is", "how long it has been there", "whether it itches, burns or spreads", "any new soap, medicine or food before it started"]
+    },
+    "Orthopedics": {
+      "keywords": ["back pain", "knee", "joint", "bone", "fracture", "shoulder", "neck pain", "sprain", "arthritis", "ankle", "hip", "muscle pain", "sports injury"],
+      "ask_about": ["where exactly the pain is", "whether there was a fall or injury", "whether there is swelling or difficulty walking", "how long it has lasted"]
+    },
+    "ENT": {
+      "keywords": ["ear", "earache", "hearing", "nose", "sinus", "throat pain", "painful throat", "tonsil", "tonsils", "tonsillitis", "swollen tonsils", "difficulty swallowing", "pain on swallowing", "snoring", "blocked nose", "nosebleed", "vertigo"],
+      "ask_about": ["which ear, nostril or side of the throat", "any discharge, fever or pain on swallowing", "any dizziness or hearing change", "how long it has lasted"]
+    },
+    "Neurology": {
+      "keywords": ["migraine", "seizure", "numbness", "tingling", "memory", "dizziness", "tremor", "stroke", "nerve"],
+      "ask_about": ["how often it happens and how long each time", "any vision change, nausea or sensitivity to light", "any weakness or numbness on one side", "any past head injury"]
+    },
+    "Gastroenterology": {
+      "keywords": ["acidity", "gas", "bloating", "constipation", "ulcer", "liver", "reflux", "heartburn", "indigestion", "stomach pain", "abdominal pain", "jaundice"],
+      "ask_about": ["when the discomfort comes (before or after food)", "any vomiting, black stools or weight loss", "how long it has lasted", "any medicine already tried"]
+    },
+    "Ophthalmology": {
+      "keywords": ["eye", "eyes", "eye pain", "eyesight", "vision", "blurred vision", "blurry vision", "double vision", "red eye", "red eyes", "itchy eyes", "watery eyes", "dry eyes", "conjunctivitis", "pink eye", "stye", "eyelid", "cataract", "squint", "glasses", "contact lens", "floaters"],
+      "ask_about": ["which eye, or both", "whether the vision is affected (blurred, double, or any loss)", "any redness, discharge, swelling or sensitivity to light", "whether there was an injury, a splash or something in the eye", "whether the person wears glasses or contact lenses"]
+    },
+    "Dentistry": {
+      "keywords": ["tooth", "teeth", "toothache", "gum", "cavity", "dental", "root canal", "braces", "wisdom tooth"],
+      "ask_about": ["which tooth or side", "whether there is swelling or fever", "whether hot or cold makes it worse", "how long it has lasted"]
+    }
+  },
+  "doctors": [
+    {"id": "BJ-01", "name": "Dr. Sonia", "specialty": "Pediatrics", "seniority": "senior", "title": "Senior Consultant", "experience_years": 15, "fee": 450, "availability": ["Mon 10:30-15:30", "Wed 10:30-15:30", "Thu 10:30-15:30"]},
+    {"id": "BJ-02", "name": "Dr. Omar Rashid", "specialty": "Pediatrics", "seniority": "standard", "title": "Specialist", "experience_years": 6, "fee": 250, "availability": ["Sun 09:00-13:00", "Tue 14:00-18:00", "Thu 09:00-13:00"]},
+    {"id": "BJ-03", "name": "Dr. Karim Haddad", "specialty": "General Medicine", "seniority": "senior", "title": "Senior Consultant", "experience_years": 18, "fee": 400, "availability": ["Sun 09:00-13:00", "Mon 09:00-13:00", "Tue 09:00-13:00", "Wed 09:00-13:00", "Thu 09:00-13:00"]},
+    {"id": "BJ-04", "name": "Dr. Hana Yusuf", "specialty": "General Medicine", "seniority": "standard", "title": "General Practitioner", "experience_years": 5, "fee": 200, "availability": ["Sat 10:00-14:00", "Sun 14:00-18:00", "Mon 14:00-18:00", "Wed 14:00-18:00"]},
+    {"id": "BJ-05", "name": "Dr. Layla Nasser", "specialty": "General Medicine", "seniority": "standard", "title": "Family Physician", "experience_years": 9, "fee": 300, "availability": ["Mon 14:00-18:00", "Tue 14:00-18:00", "Wed 14:00-18:00", "Thu 14:00-18:00", "Fri 14:00-18:00"]},
+    {"id": "BJ-06", "name": "Dr. Faisal Al Mansoori", "specialty": "Cardiology", "seniority": "senior", "title": "Senior Consultant", "experience_years": 20, "fee": 700, "availability": ["Mon 10:00-14:00", "Wed 10:00-14:00"]},
+    {"id": "BJ-07", "name": "Dr. Mariam Khoury", "specialty": "Cardiology", "seniority": "standard", "title": "Specialist", "experience_years": 7, "fee": 450, "availability": ["Tue 10:00-14:00", "Thu 10:00-14:00"]},
+    {"id": "BJ-08", "name": "Dr. Rana Saleh", "specialty": "Dermatology", "seniority": "senior", "title": "Senior Consultant", "experience_years": 14, "fee": 500, "availability": ["Sun 11:00-15:00", "Tue 11:00-15:00"]},
+    {"id": "BJ-09", "name": "Dr. Tariq Aziz", "specialty": "Dermatology", "seniority": "standard", "title": "Specialist", "experience_years": 5, "fee": 300, "availability": ["Mon 15:00-19:00", "Thu 15:00-19:00"]},
+    {"id": "BJ-10", "name": "Dr. Samir Barakat", "specialty": "Orthopedics", "seniority": "senior", "title": "Senior Consultant", "experience_years": 19, "fee": 650, "availability": ["Mon 09:00-13:00", "Wed 09:00-13:00"]},
+    {"id": "BJ-11", "name": "Dr. Nadia Farouk", "specialty": "Orthopedics", "seniority": "standard", "title": "Specialist", "experience_years": 8, "fee": 400, "availability": ["Tue 14:00-18:00", "Thu 14:00-18:00"]},
+    {"id": "BJ-12", "name": "Dr. Yusuf Qasim", "specialty": "ENT", "seniority": "senior", "title": "Senior Consultant", "experience_years": 16, "fee": 500, "availability": ["Sun 10:00-14:00", "Wed 10:00-14:00"]},
+    {"id": "BJ-13", "name": "Dr. Amal Haddad", "specialty": "ENT", "seniority": "standard", "title": "Specialist", "experience_years": 6, "fee": 300, "availability": ["Tue 15:00-19:00", "Thu 15:00-19:00"]},
+    {"id": "BJ-14", "name": "Dr. Idris Mahmoud", "specialty": "Neurology", "seniority": "senior", "title": "Senior Consultant", "experience_years": 21, "fee": 750, "availability": ["Tue 10:00-14:00", "Thu 10:00-14:00"]},
+    {"id": "BJ-15", "name": "Dr. Salma Reda", "specialty": "Gastroenterology", "seniority": "senior", "title": "Senior Consultant", "experience_years": 13, "fee": 600, "availability": ["Sun 09:00-13:00", "Wed 09:00-13:00"]},
+    {"id": "BJ-17", "name": "Dr. Hessa Al Suwaidi", "specialty": "Ophthalmology", "seniority": "senior", "title": "Senior Consultant", "experience_years": 15, "fee": 550, "availability": ["Sun 10:00-14:00", "Tue 10:00-14:00", "Thu 10:00-14:00"]},
+    {"id": "BJ-18", "name": "Dr. Bilal Karimi", "specialty": "Ophthalmology", "seniority": "standard", "title": "Specialist", "experience_years": 6, "fee": 300, "availability": ["Mon 14:00-18:00", "Wed 14:00-18:00"]},
+    {"id": "BJ-16", "name": "Dr. Khalid Nouri", "specialty": "Dentistry", "seniority": "standard", "title": "Dentist", "experience_years": 8, "fee": 250, "availability": ["Sat 09:00-13:00", "Mon 09:00-13:00", "Tue 09:00-13:00", "Wed 09:00-13:00"]}
+  ],
+  "insurers": {
+    "Daman": 0.8,
+    "Thiqa": 0.9,
+    "GIG Gulf": 0.8,
+    "Sukoon": 0.75,
+    "Cigna": 0.8,
+    "NAS": 0.7
+  }
+}

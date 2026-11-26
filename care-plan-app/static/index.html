@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanjeevani Virtual Health</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230c2340'/><path d='M6 17h5l2.5-6 4 11 2.5-5H26' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Noto+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/sanjeevani.css?v=202611021615">
+  <link rel="stylesheet" href="/static/css/refine.css?v=14">
+  <link rel="stylesheet" href="/static/css/depth.css?v=4">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.13.0/dist/maplibre-gl.css">
+  <script src="https://unpkg.com/maplibre-gl@5.13.0/dist/maplibre-gl.js" defer></script>
+  <style>
+    .patient-roster-card {
+      padding: 12px 14px;
+      border-radius: var(--r);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: all .2s ease;
+      text-align: left;
+    }
+    .patient-roster-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
+    }
+    .patient-roster-card.is-selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+  </style>
+</head>
+<body class="app-bg">
+
+  <!-- ============================== App bar ============================== -->
+  <header class="gnav glass appbar">
+    <div class="wrap appbar-in">
+      <a class="brand" href="/" aria-label="Sanjeevani Virtual Health home">
+        <span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M3 12.5h4l2-5 3.5 10 2.5-5H21"/></svg></span>
+        <b>Sanjeevani</b><span>Virtual Health</span>
+      </a>
+      <nav class="seg" id="tabNav" aria-label="Sections">
+        <button data-tab="care-journey" class="is-active"><i data-icon="doc"></i>Care plan</button>
+        <button data-tab="patient"><i data-icon="user"></i>Patient</button>
+        <button data-tab="appointments"><i data-icon="calendar"></i>Appointments</button>
+        <button data-tab="alerts"><i data-icon="alert"></i>Alerts</button>
+        <button data-tab="vitals"><i data-icon="heart"></i>Vitals</button>
+        <button data-tab="doctors"><i data-icon="stethoscope"></i>Doctors</button>
+        <button data-tab="labs"><i data-icon="flask"></i>Labs</button>
+        <button data-tab="pharmacy"><i data-icon="pill"></i>Pharmacy</button>
+        <button data-tab="analytics"><i data-icon="chart"></i>Insights</button>
+      </nav>
+      <div class="appbar-right">
+        <div class="patient" title="Patient on file"><span class="avatar" id="topPatientInitials">—</span><span id="topPatientName">Guest</span></div>
+        <button class="btn btn-dark btn-sm" onclick="openVoiceFromBar()"><i data-icon="mic"></i>Ask a question</button>
+      </div>
+    </div>
+    <div class="tabstrip" id="tabStrip">
+      <button data-tab="care-journey" class="is-active">Care plan</button>
+      <button data-tab="patient">Patient</button>
+      <button data-tab="appointments">Appointments</button>
+      <button data-tab="alerts">Alerts</button>
+      <button data-tab="vitals">Vitals</button>
+      <button data-tab="doctors">Doctors</button>
+      <button data-tab="labs">Labs</button>
+      <button data-tab="pharmacy">Pharmacy</button>
+      <button data-tab="analytics">Insights</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="wrap">
+
+      <!-- ============================== 1. Care plan ============================== -->
+      <section id="view-care-journey" class="view">
+        <div class="page-head cp-hero">
+          <p class="cp-eyebrow">Care plan</p>
+          <h1>From prescription<br>to a plan they can follow.</h1>
+          <p>Paste a note or upload a photo. Get every medicine with its timing, follow-up tests, diet advice and an Arabic summary, ready to order.</p>
+        </div>
+
+        <div class="grid-2 cp-grid">
+          <form id="journeyForm" class="card card-pad cp-card" onsubmit="handleFormSubmit(event)">
+            <div class="row-between" style="margin-bottom:18px">
+              <h2 style="font-size:21px">Prescription</h2>
+              <div class="seg" role="tablist" aria-label="How to add the prescription">
+                <button type="button" class="is-active" data-rx-mode="text">Type it</button>
+                <button type="button" data-rx-mode="file">Upload a photo</button>
+              </div>
+            </div>
+
+            <div class="cp-samples" role="group" aria-label="Sample prescriptions">
+              <span class="cp-samples-label">Try a sample</span>
+              <button type="button" class="cp-chip" onclick="loadSampleCase('gastro')"><i data-icon="stethoscope"></i>Stomach infection</button>
+              <button type="button" class="cp-chip" onclick="loadSampleCase('pediatric')"><i data-icon="baby"></i>Child with a fever</button>
+            </div>
+
+            <div id="rxModeText">
+              <label class="sr" for="prescription_text">Prescription or consultation note</label>
+              <textarea id="prescription_text" name="prescription_text" class="textarea" style="min-height:200px"
+                placeholder="Paste the prescription or the doctor's note, for example:&#10;&#10;Dr. Mansoor Ali, Consultant Physician, Sanjeevani Medical City&#10;Rx: Tab Glucophage 500 mg PO BD after meals x 30 days&#10;Rx: Tab Lipitor 20 mg OD at night x 30 days&#10;Lab: HbA1c in 3 months. Low GI diet, 30 min walk daily."></textarea>
+            </div>
+
+            <div id="rxModeFile" hidden>
+              <label class="drop" id="rxDrop">
+                <i data-icon="upload"></i>
+                <b id="rxFileName">Choose photos, scans or PDFs</b>
+                <span>Handwritten prescriptions, discharge summaries or lab requests</span>
+                <input type="file" id="prescription_file" multiple accept="image/*,application/pdf" hidden onchange="handlePrescriptionFilesSelected(this)">
+              </label>
+              <div class="file-chips" id="prescriptionFilesDisplay" hidden></div>
+            </div>
+
+            <div class="disclose open" id="demoDisclose">
+              <button type="button" onclick="toggleDisclose('demoDisclose')" aria-expanded="true">
+                <span>Patient details</span><i data-icon="chevron-down"></i>
+              </button>
+              <div class="disclose-body" id="demographicsBody">
+                <div class="form-grid">
+                  <div class="field span-2" style="margin-bottom:8px">
+                    <span class="label" style="display:flex;justify-content:space-between;align-items:center">
+                      <span>Select Registered Patient or Enter New</span>
+                      <span class="tiny muted" id="patientSelectCount"></span>
+                    </span>
+                    <select class="select" id="patientPresetSelect" onchange="onSelectPatientPreset(this.value)">
+                      <option value="">-- Choose registered patient or enter manually --</option>
+                    </select>
+                  </div>
+                  <label class="field"><span>Name</span><input class="input" type="text" id="patient_name" name="patient_name" placeholder="Patient name"></label>
+                  <div class="field"><span>Patient ID (MRN)</span>
+                    <div style="display:flex;gap:8px">
+                      <input class="input" type="text" id="patient_id" name="patient_id" value="" placeholder="e.g. SNJ-98214 or leave blank" aria-label="Patient ID">
+                      <button type="button" class="btn btn-secondary" id="btnFetchHistory" onclick="fetchPatientHistory(true)" title="Fill in this patient's details and history from their records">Look up</button>
+                    </div>
+                    <span class="tiny" id="fetchHistoryStatus" hidden></span>
+                  </div>
+                  <label class="field"><span class="label">Mobile <span class="req">*</span></span><input class="input" type="tel" id="mobile_number" name="mobile_number" value="" required placeholder="+971 50 123 4567"></label>
+                  <label class="field"><span class="label">Date of birth <span class="req">*</span></span><input class="input" type="date" id="identity_dob" name="identity_dob" value="" required></label>
+                  <div class="field"><span>Age and sex</span>
+                    <div style="display:flex;gap:8px">
+                      <input class="input" type="number" id="patient_age" name="patient_age" value="" placeholder="Age" style="width:84px" aria-label="Age">
+                      <select class="select" id="patient_gender" name="patient_gender" aria-label="Sex"><option value="Female" selected>Female</option><option value="Male">Male</option></select>
+                    </div>
+                  </div>
+                  <label class="field span-2"><span>Home address</span><input class="input" type="text" id="delivery_address" name="delivery_address" value="" placeholder="e.g. Apt 1204, Tower B, Al Reem Island, Abu Dhabi, UAE"></label>
+                  <label class="field"><span>Known conditions</span><input class="input" type="text" id="chronic_conditions" name="chronic_conditions" placeholder="e.g. Type 2 diabetes"></label>
+                  <div class="field"><span>Blood pressure and weight</span>
+                    <div style="display:flex;gap:8px">
+                      <input class="input" type="text" id="blood_pressure" name="blood_pressure" placeholder="120/80" aria-label="Blood pressure">
+                      <input class="input" type="number" step="0.1" id="weight_kg" name="weight_kg" placeholder="kg" aria-label="Weight in kg">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="disclose" id="historyDisclose">
+              <button type="button" onclick="toggleDisclose('historyDisclose')" aria-expanded="false">
+                <span>Medical history <span class="muted" style="font-weight:400">(optional)</span></span><i data-icon="chevron-down"></i>
+              </button>
+              <div class="disclose-body">
+                <p class="small muted" style="margin-bottom:14px">Past conditions, allergies and earlier prescriptions are read alongside today's prescription, so the plan accounts for them.</p>
+                <div class="history-grid">
+                  <label class="field"><span>Notes</span>
+                    <textarea class="textarea" id="history_text" name="history_text" style="min-height:132px" placeholder="e.g. Type 2 diabetes since 2019, allergic to penicillin, had an appendectomy in 2021"></textarea>
+                  </label>
+                  <div class="field"><span>Earlier prescriptions or reports</span>
+                    <label class="drop" id="historyDrop" style="min-height:132px">
+                      <i data-icon="upload"></i>
+                      <b>Add files</b>
+                      <span>Photos or PDFs, several at once</span>
+                      <input type="file" id="history_files_input" multiple accept="image/*,application/pdf" hidden onchange="handleHistoryFilesSelected(this)">
+                    </label>
+                  </div>
+                </div>
+                <div class="file-chips" id="historyFilesDisplay" hidden></div>
+                <p class="small muted" id="onFileHint" hidden style="margin-top:14px">Already on file for this patient. Tick the ones to read as history.</p>
+                <div class="file-chips" id="onFileDocs" hidden></div>
+              </div>
+            </div>
+
+            <label class="consent" id="consentRow" hidden>
+              <input type="checkbox" id="consent_calls" name="consent_calls" value="true">
+              <span><b>Call me about these medicines</b>
+                <span>The Sanjeevani care assistant phones the mobile number above a few minutes after the plan is made to go through each medicine, and again later to ask how you are.</span></span>
+            </label>
+
+            <div class="row-between" style="margin-top:26px">
+              <p class="small muted" style="display:flex;gap:8px;align-items:center"><i data-icon="lock"></i>Sent over an encrypted connection to the care team's server.</p>
+              <button type="submit" id="btnSubmitJourney" class="btn btn-primary btn-lg">Create care plan</button>
+            </div>
+          </form>
+
+          <aside class="cp-aside">
+            <h3>What you get</h3>
+            <ul class="cp-gets">
+              <li><span class="tile-icon"><i data-icon="pill"></i></span><span><b>Every medicine</b>Dose, timing and how long to take it</span></li>
+              <li><span class="tile-icon"><i data-icon="flask"></i></span><span><b>Follow-up and labs</b>The next visit and tests to book</span></li>
+              <li><span class="tile-icon"><i data-icon="leaf"></i></span><span><b>Diet and lifestyle</b>Plain advice the patient can follow</span></li>
+              <li><span class="tile-icon"><i data-icon="doc"></i></span><span><b>Arabic summary</b>The whole plan in English and Arabic</span></li>
+              <li><span class="tile-icon"><i data-icon="truck"></i></span><span><b>Ready to order</b>Medicines go straight to the pharmacy</span></li>
+            </ul>
+          </aside>
+        </div>
+
+        <!-- Working -->
+        <div id="loadingIndicator" class="card loading hidden" style="margin-top:22px">
+          <div class="orb" data-state="thinking" aria-hidden="true"></div>
+          <h3>Reading the prescription</h3>
+          <p>This usually takes under a minute.</p>
+          <ol class="stages" id="stageList"><li><i></i>Reading the prescription</li><li><i></i>Finding each medicine and dose</li><li><i></i>Writing the plan in English and Arabic</li></ol>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsContainer" class="stack hidden" style="margin-top:22px">
+
+          <!-- Voice questions -->
+          <div class="voice" id="voicePanel">
+            <div class="row-between" style="flex-wrap:wrap;gap:16px;align-items:center">
+              <div style="display:flex;gap:14px;align-items:center">
+                <span class="tile-icon" style="background:rgba(255,255,255,.12);color:#fff"><i data-icon="phone"></i></span>
+                <div>
+                  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                    <h3 style="margin:0">Have the Voice Assistant Explain this Care Plan</h3>
+                    <span class="chip" id="callTargetChip" style="background:rgba(255,255,255,.2);color:#fff"></span>
+                  </div>
+                  <p class="muted small" style="margin-top:4px" id="voiceIntro">The Sanjeevani Voice Assistant phones the patient to walk through medication timing, food precautions, and answer any questions.</p>
+                </div>
+              </div>
+              <button onclick="startRealCall()" id="btnToggleVoiceBot" class="btn btn-light"><i data-icon="phone"></i><span>Call Patient to Explain Medicines</span></button>
+            </div>
+
+            <p class="small followup" id="followUpNote" hidden></p>
+
+            <!-- A real call through the STL voicebot -->
+            <div id="realCallPanel" class="voice-live glass-dark" hidden>
+              <div class="row-between" style="align-items:center">
+                <span class="small" id="realCallLine" style="display:flex;align-items:center;gap:8px">
+                  <span class="dot" id="realCallDot"></span>
+                  <span id="realCallText">Calling...</span>
+                </span>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <span class="timer" id="realCallTimer">00:00</span>
+                  <button type="button" class="btn btn-sm btn-light" id="btnEndOrDismissCall" onclick="endOrDismissRealCall()" style="font-size:12px;padding:4px 10px;height:auto">End call</button>
+                </div>
+              </div>
+
+              <!-- Audio waveform animation during active call -->
+              <div class="voice-stage"><div class="orb" id="realCallOrb" data-state="thinking"></div><div class="caption" id="realCallCaption" aria-live="polite"></div></div>
+
+              <ol class="call-steps" id="realCallSteps">
+                <li data-stage="calling">Placing the call</li>
+                <li data-stage="ringing">Ringing patient</li>
+                <li data-stage="in_call">On the call</li>
+                <li data-stage="ended">Call ended</li>
+              </ol>
+
+              <div id="realCallSummaryBox" style="background:rgba(255,255,255,.08);margin-top:14px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.15)" hidden>
+                <div style="font-size:12px;font-weight:600;color:#4cc795;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Call Summary</div>
+                <p class="small" id="realCallSummary" style="color:rgba(255,255,255,.9);margin:0"></p>
+              </div>
+
+              <div class="transcript" id="realCallTranscript" aria-live="polite"></div>
+            </div>
+
+            <div id="inboundVoiceBotPanel" class="voice-live glass-dark hidden">
+              <div class="row-between">
+                <span class="small" style="display:flex;align-items:center;gap:8px"><span class="dot"></span>On a call with the care assistant <span class="chip" style="background:rgba(255,255,255,.12);color:#fff">Demo</span></span>
+                <span class="timer" id="inboundTimerDisplay">00:00</span>
+              </div>
+              <div class="voice-stage"><div class="orb" id="inboundOrb" data-state="idle"></div><div class="caption" id="inboundCaption" aria-live="polite"></div></div>
+              <div class="transcript" id="inboundTranscriptContainer" aria-live="polite"></div>
+              <div class="qchips" id="inboundQuickChips">
+                <button onclick="askBotQuestion('Can I take this medication with milk or juice?')">Can I take it with milk?</button>
+                <button onclick="askBotQuestion('What should I do if I accidentally miss a dose?')">What if I miss a dose?</button>
+                <button onclick="askBotQuestion('Are there any foods or drinks I should avoid?')">Foods to avoid?</button>
+                <button onclick="askBotQuestion('How many days should I continue taking this medicine?')">How many days?</button>
+              </div>
+              <div class="row-between" style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
+                <span class="small" style="color:rgba(255,255,255,.62)">Need to speak to a doctor?</span>
+                <button onclick="escalateToLiveDoctor()" class="btn btn-light btn-sm"><i data-icon="stethoscope"></i>Transfer to the duty doctor</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ask about the medicines in writing -->
+          <section class="card card-pad" id="chatCard" hidden>
+            <div class="tl-top"><div><h2>Ask about your medicines</h2><p class="muted small" style="margin-top:4px">Answers come from this plan. For anything urgent, call your doctor.</p></div></div>
+            <div class="chat-list" id="chatList" aria-live="polite"></div>
+            <div class="chat-chips" id="chatChips"></div>
+            <form class="chat-form" id="chatForm" onsubmit="sendChat(event)">
+              <input class="input" id="chatInput" placeholder="Type your question" maxlength="600" autocomplete="off" aria-label="Your question">
+              <button class="btn btn-dark" id="chatSend" type="submit">Send</button>
+            </form>
+            <p class="tiny muted" style="margin-top:10px">An assistant, not a doctor. It does not diagnose or change a medicine.</p>
+          </section>
+
+          <!-- After the plan: what the voice assistant does next, and what the patient says -->
+          <section class="card card-pad" id="followupCard" hidden>
+            <div class="tl-top"><div><h2>After the plan</h2><p class="muted small" style="margin-top:4px">The calls the care assistant makes, and what the patient says.</p></div><button type="button" class="btn btn-secondary btn-sm" onclick="refreshFollowUp()">Refresh</button></div>
+            <div id="fuBody"></div>
+          </section>
+
+          <!-- The plan -->
+          <article class="card plan">
+            <div class="plan-head">
+              <div>
+                <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+                  <span class="chip" id="emailUrgencyBadge">Routine</span>
+                </div>
+                <h2 id="emailSubjectTitle">Your care plan and next steps</h2>
+                <p id="emailDoctorHeader">Attending physician, Sanjeevani Medical City</p>
+              </div>
+              <div class="plan-meta">
+                <b id="emailDateDisplay">Today</b>
+                <span class="mono" id="emailPatientRefDisplay">—</span>
+              </div>
+            </div>
+
+            <div class="plan-body">
+              <section class="plan-sec">
+                <h3 id="emailGreeting" style="font-size:19px;margin-bottom:8px">Dear patient,</h3>
+                <p id="emailEnglishSummary">Your doctor has prescribed the medicines below, with advice to help you recover.</p>
+                <p class="arabic" dir="rtl" id="emailArabicSummary">عزيزي المريض، تم إعداد خطتك العلاجية من قبل الطبيب المعالج.</p>
+              </section>
+
+              <section class="plan-sec hidden" id="clinicalProfileHistorySection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="clock"></i></span><h3>Medical history</h3><span class="chip mono" id="profileHistoryPatientId">—</span></div>
+                <div class="history-facts">
+                  <div><span class="label">Long-term conditions</span><div class="chips" id="profileChronicConditionsList"></div></div>
+                  <div><span class="label">Allergies</span><div class="chips" id="profileAllergiesList"></div></div>
+                  <div><span class="label">Earlier medicines</span><div id="profilePastMedsList" class="small"></div></div>
+                </div>
+                <p id="profileClinicalOverviewText" style="margin-top:16px"></p>
+              </section>
+
+              <section class="plan-sec">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="pill"></i></span><h3>Medicines</h3><span class="chip" id="medsCountBadge">0 medicines</span></div>
+                <div class="notice notice-accent" style="margin-bottom:14px;background:rgba(11,79,108,0.08);border:1px solid rgba(11,79,108,0.2);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+                  <div style="display:flex;gap:10px;align-items:center">
+                    <span class="tile-icon" style="background:#0b4f6c;color:#fff;width:32px;height:32px"><i data-icon="phone"></i></span>
+                    <div>
+                      <b style="color:#0b4f6c">Sanjeevani Care Assistant Voice Call</b>
+                      <p class="small muted" style="margin:2px 0 0">Place an automated outbound call to explain these medicines, dosages, and precautions.</p>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="startRealCall()"><i data-icon="phone"></i><span>Call to explain prescription</span></button>
+                </div>
+                <div id="emailMedicationsContainer"></div>
+              </section>
+
+              <section class="plan-sec hidden" id="encountersSection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="clock"></i></span><h3>Earlier visits</h3><span class="chip" id="encountersCount">0 visits</span></div>
+                <div class="enc-list" id="encountersList"></div>
+              </section>
+
+              <section class="plan-sec" id="emailRevisitSection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="calendar"></i></span><h3>Follow-up visit</h3><span class="chip chip-accent" id="emailRevisitTiming">In 2 weeks</span></div>
+                <p id="emailRevisitPurpose">Review how the treatment is working.</p>
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-top:12px" onclick="prefillFollowUpVisit()"><i data-icon="calendar"></i>Book this visit</button>
+                <div id="planConsultation" style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+                  <button class="link" onclick="switchTab('doctors')">Book the follow-up</button>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="triggerDoctorVoiceCallFromPlan()"><i data-icon="phone"></i><span>Call to Book Visit</span></button>
+                </div>
+              </section>
+
+              <section class="plan-sec" id="emailDietSection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="leaf"></i></span><h3>Diet and lifestyle</h3></div>
+                <ul class="bullets" id="emailDietGuidelines"><li>Drink plenty of water and eat balanced meals.</li></ul>
+                <ul class="bullets muted" id="emailLifestyleGuidelines"><li>A 30-minute walk each day.</li></ul>
+                <div class="bio-box" id="biomarkerBox" hidden><h4>From your lab results</h4><div id="biomarkerList"></div></div>
+              </section>
+
+              <section class="plan-sec" id="emailRpmSection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="watch"></i></span><h3>Home monitoring device</h3><span class="chip" id="rpmPurchasableBadge">Buy or rent</span></div>
+                <p><b id="emailRpmDeviceName">Connected vitals monitor</b></p>
+                <p id="emailRpmPurpose" style="margin-top:4px">Readings are shared with your Sanjeevani doctor automatically.</p>
+                <p class="small muted" id="emailRpmActionNote" style="margin-top:8px">Added to your order below. Untick it if you already have one.</p>
+              </section>
+
+              <section class="plan-sec" id="emailLabSection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="flask"></i></span><h3>Lab tests</h3><span class="chip chip-warn" id="emailLabTiming">Soon</span></div>
+                <p><b id="emailLabTestName">Blood panel</b></p>
+                <p id="emailLabReason" style="margin-top:4px">To check how the treatment is working.</p>
+                <p style="margin-top:12px"><button class="link" onclick="switchTab('labs')">Book a test or home sample collection</button></p>
+              </section>
+
+              <section class="plan-sec" id="emailCareProgSection">
+                <div class="plan-sec-head"><span class="tile-icon"><i data-icon="shield"></i></span><h3>Care programme</h3></div>
+                <p><b id="emailCareProgName">Sanjeevani care pathway</b></p>
+                <ul class="bullets" id="emailCareProgList"></ul>
+              </section>
+
+              <!-- Order -->
+              <section class="order">
+                <div class="row-between" style="margin-bottom:16px">
+                  <div>
+                    <h3 style="font-size:21px">Order these items</h3>
+                    <p class="small muted" style="margin-top:4px">Untick anything you already have.</p>
+                  </div>
+                  <span class="chip" id="selectedMedsCountDisplay">All items selected</span>
+                </div>
+
+                <div id="pharmacyChecklistContainer"></div>
+
+                <p class="label" style="margin:22px 0 10px">How would you like to get them?</p>
+                <div class="choice">
+                  <label id="labelHomeDelivery" class="is-active">
+                    <input type="radio" name="fulfillmentType" value="home_delivery" checked onchange="toggleFulfillmentType('home_delivery')">
+                    <span><b>Delivery today</b><span>Courier to your door in 2-3 hours</span></span>
+                  </label>
+                  <label id="labelPickup">
+                    <input type="radio" name="fulfillmentType" value="self_pickup" onchange="toggleFulfillmentType('self_pickup')">
+                    <span><b>Pick up</b><span>Ready at a Sanjeevani pharmacy in 30 minutes</span></span>
+                  </label>
+                </div>
+
+                <div id="homeDeliveryLocationBox" style="margin-top:14px">
+                  <div class="row-between" style="margin-bottom:6px">
+                    <label class="label" for="finalDeliveryAddress">Delivery address</label>
+                    <button type="button" class="link" onclick="detectCurrentLocation()" id="btnDetectLocation"><span id="detectLocationText">Use my location</span></button>
+                  </div>
+                  <div class="suggest-wrap">
+                    <input class="input" type="text" id="finalDeliveryAddress" autocomplete="off" placeholder="Apartment, building, area, city">
+                    <div class="suggest glass" id="carePlanAddressSuggestions" hidden></div>
+                  </div>
+                </div>
+
+                <div id="selfPickupLocationBox" class="hidden" style="margin-top:14px">
+                  <label class="field"><span>Pharmacy</span>
+                    <select class="select" id="pickupCounterSelect">
+                      <option value="Sanjeevani Medical City - Central Pharmacy Ground Floor Counter 101, Abu Dhabi">Sanjeevani Medical City, central pharmacy (Abu Dhabi)</option>
+                      <option value="Sanjeevani Hospital Al Najda Street - OPD Pharmacy, Abu Dhabi">Sanjeevani Hospital Al Najda Street, outpatient pharmacy (Abu Dhabi)</option>
+                      <option value="Sanjeevani Specialty Hospital - Main Lobby Pharmacy, Sharjah">Sanjeevani Specialty Hospital, main lobby (Sharjah)</option>
+                      <option value="Sanjeevani Royal Hospital - Counter 2, Al Ain">Sanjeevani Royal Hospital, counter 2 (Al Ain)</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="row-between" style="margin-top:22px">
+                  <span class="small muted" style="display:flex;gap:8px;align-items:center"><i data-icon="shield"></i>Checked against the e-prescription</span>
+                  <button onclick="openPharmacyConfirmModal()" id="btnPharmacy1Click" class="btn btn-primary">Review order</button>
+                </div>
+
+                <div id="pharmacyAlertBox" class="notice hidden" style="margin-top:16px">
+                  <i data-icon="check-circle"></i>
+                  <div><b id="orderSuccessTitle">Order placed</b><p id="orderSuccessDetail"></p></div>
+                </div>
+              </section>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================== Patient record (from the voice agent) ============================== -->
+      <section id="view-patient" class="view hidden">
+        <div class="page-head">
+          <div>
+            <h1>Patient</h1>
+            <p>One timeline of everything the care assistant and the pharmacy have done for this patient.</p>
+          </div>
+          <form class="record-search" id="recordSearch" onsubmit="loadPatientRecord(event)">
+            <div class="search"><i data-icon="search"></i>
+              <input class="input" id="recordQuery" placeholder="Patient ID or mobile number" aria-label="Patient ID or mobile number">
+            </div>
+            <button class="btn btn-primary" id="recordGo">Look up</button>
+          </form>
+        </div>
+
+        <div id="patientRosterSection" style="margin-bottom:20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <span class="tiny bold muted" style="text-transform:uppercase;letter-spacing:0.05em">Registered Patients Directory</span>
+            <span class="tiny muted" id="patientRosterCount"></span>
+          </div>
+          <div id="patientRosterCards" class="roster-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:12px"></div>
+        </div>
+
+        <div id="recordNotConnected" class="notice notice-warn" hidden>
+          <i data-icon="info"></i>
+          <div><b>The voice assistant isn't connected</b><p>Set VOICEBOT_URL and VOICEBOT_API_KEY on this server to see calls, appointments and orders from it.</p></div>
+        </div>
+        <div id="recordEmpty" class="card loading" hidden><p id="recordEmptyText"></p></div>
+        <div id="recordLoading" class="card loading" hidden><div class="spinner"></div><p>Fetching the record...</p></div>
+
+        <div id="recordBody" class="stack" hidden>
+          <div class="card record-head" id="recordHead"></div>
+          <section class="card card-pad" id="recTimeline">
+            <div class="tl-top"><h2>Timeline</h2><div class="seg" id="tlFilter" role="tablist" aria-label="Filter the timeline"></div></div>
+            <div id="tlBody"></div>
+          </section>
+          <section class="card card-pad" id="recVault">
+            <div class="sec-title"><span class="tile-icon"><i data-icon="doc"></i></span><h2>Stored documents</h2></div>
+            <div id="vaultList"></div>
+          </section>
+          <details class="rec-more"><summary>All records by type</summary>
+          <div class="record-grid">
+            <section class="card card-pad"><div class="sec-title"><span class="tile-icon"><i data-icon="calendar"></i></span><h2>Appointments</h2></div><div id="recAppointments"></div></section>
+            <section class="card card-pad"><div class="sec-title"><span class="tile-icon"><i data-icon="phone"></i></span><h2>Follow-up calls</h2></div><div id="recFollowUps"></div></section>
+            <section class="card card-pad"><div class="sec-title"><span class="tile-icon"><i data-icon="truck"></i></span><h2>Pharmacy orders</h2></div><div id="recOrders"></div></section>
+            <section class="card card-pad"><div class="sec-title"><span class="tile-icon"><i data-icon="pill"></i></span><h2>Prescriptions</h2></div><div id="recPrescriptions"></div></section>
+          </div>
+          <section class="card card-pad"><div class="sec-title"><span class="tile-icon"><i data-icon="mic"></i></span><h2>Calls</h2></div><div id="recCalls"></div></section>
+          <section class="card card-pad" id="recFeedbackWrap"><div class="sec-title"><span class="tile-icon"><i data-icon="star"></i></span><h2>Feedback on medicines</h2></div><div id="recFeedback"></div></section>
+          </details>
+        </div>
+      </section>
+
+      <section id="view-alerts" class="view hidden">
+        <div class="page-head">
+          <div>
+            <h1>Alerts</h1>
+            <p>Refills that are running out and vitals checks worth a follow-up. A person decides about each call.</p>
+          </div>
+          <button class="btn btn-secondary" id="alertScan" onclick="scanAlerts()">Check refills</button>
+        </div>
+        <p class="small muted" id="alertRules" style="margin:-14px 0 18px"></p>
+        <div id="alertNotConnected" class="notice notice-warn" hidden>
+          <i data-icon="info"></i>
+          <div><b>The voice assistant isn't connected</b><p>Alerts can be queued, but nobody can be called until VOICEBOT_URL and VOICEBOT_API_KEY are set.</p></div>
+        </div>
+        <div id="alertLoading" class="card loading" hidden><div class="sk" style="height:16px;width:50%;margin:0 auto"></div></div>
+        <div id="alertList" class="stack-sm"></div>
+      </section>
+
+      <section id="view-appointments" class="view hidden">
+        <div class="page-head">
+          <div>
+            <h1>Appointments</h1>
+            <p>Every visit, whether the patient phoned in or the assistant called them.</p>
+          </div>
+          <button class="btn btn-dark" onclick="openApptSheet()"><i data-icon="plus"></i>New appointment</button>
+        </div>
+
+        <div id="apptNotConnected" class="notice notice-warn" hidden>
+          <i data-icon="info"></i>
+          <div><b id="apptNoticeTitle">The voice assistant isn't connected</b><p id="apptNoticeText">Set VOICEBOT_URL and VOICEBOT_API_KEY on this server to see appointments.</p></div>
+        </div>
+
+        <div class="appt-stats" id="apptStats" aria-live="polite"></div>
+
+        <div class="appt-bar">
+          <div class="seg" id="apptFilter" role="group" aria-label="Show">
+            <button class="is-active" data-f="upcoming">Upcoming</button>
+            <button data-f="today">Today</button>
+            <button data-f="done">Done</button>
+            <button data-f="all">All</button>
+          </div>
+          <div class="appt-tools">
+            <div class="search"><i data-icon="search"></i><input class="input" id="apptSearch" placeholder="Search patient or doctor" aria-label="Search appointments"></div>
+            <select class="select" id="apptSource" aria-label="Booked how">
+              <option value="">Any source</option>
+              <option value="inbound">Patient called in</option>
+              <option value="outbound">Assistant called</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="apptLoading" class="card loading" hidden><div class="sk" style="height:16px;width:50%;margin:0 auto"></div></div>
+        <div id="apptList"></div>
+
+      </section>
+
+      <!-- ============================== 2. Vitals ============================== -->
+      <section id="view-vitals" class="view hidden">
+        <div class="page-head">
+          <div>
+            <h1>Vitals check</h1>
+            <p>A one-minute video of your face gives heart rate, breathing and six more readings. The video is deleted as soon as it has been read.</p>
+          </div>
+        </div>
+
+        <!-- Start -->
+        <div id="vStart" class="vitals-grid">
+          <div class="card" style="padding:16px">
+            <div class="cam" id="vCam">
+              <video id="vPreview" playsinline muted></video>
+              <svg class="oval" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="46" rx="21" ry="33"/></svg>
+              <div class="cam-msg" id="vCamMsg">
+                <i data-icon="camera"></i>
+                <p id="vCamText">Your camera is off.</p>
+                <button class="btn btn-light" id="vCamOn">Turn on camera</button>
+              </div>
+              <div class="cam-hud">
+                <span class="hud glass-dark" id="vLight" hidden><span class="dot" id="vLightDot"></span>Light: <b id="vLightVal">-</b></span>
+                <span class="hud glass-dark" id="vRec" hidden><span class="dot rec-dot"></span><span id="vRecTime" class="num">0:00</span></span>
+              </div>
+              <div class="count" id="vCount" hidden></div>
+              <div class="cam-bar" id="vBar" hidden><div id="vFill"></div></div>
+            </div>
+            <div class="cam-controls">
+              <select class="select" id="vLength" style="width:auto" aria-label="Recording length">
+                <option value="30">30 seconds</option>
+                <option value="60" selected>1 minute (best)</option>
+                <option value="90">1 minute 30</option>
+              </select>
+              <button class="btn btn-primary" id="vRecBtn" disabled>Start recording</button>
+              <button class="btn btn-secondary" id="vStopBtn" hidden>Stop and read</button>
+            </div>
+          </div>
+
+          <div class="stack-sm">
+            <label class="drop" id="vDrop" tabindex="0">
+              <i data-icon="video"></i>
+              <b>Or upload a video</b>
+              <span>MP4, MOV or WebM, 20 seconds to 3 minutes</span>
+              <input type="file" id="vFile" accept="video/*" hidden>
+            </label>
+            <div class="card" style="padding:22px">
+              <b style="font-size:17px">For a good reading</b>
+              <div class="tips" style="margin-top:14px">
+                <div class="tip"><i data-icon="sun"></i><span>Light in front of you, from a window or lamp, not behind.</span></div>
+                <div class="tip"><i data-icon="user"></i><span>Sit back, rest your arms and keep your head still.</span></div>
+                <div class="tip"><i data-icon="wind"></i><span>Don't talk. Breathe normally.</span></div>
+                <div class="tip"><i data-icon="eye"></i><span>Face and shoulders in view, nothing covering your forehead.</span></div>
+              </div>
+            </div>
+            <div class="notice notice-warn">
+              <i data-icon="info"></i>
+              <div><b>Wellness estimates, not a diagnosis</b><p>Readings can be wrong. Blood oxygen is not measured from video. For anything worrying, see a doctor.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Working -->
+        <div id="vWork" class="card loading" hidden>
+          <div class="spinner"></div>
+          <h3 id="vWorkTitle">Reading your video</h3>
+          <p id="vWorkSub">This takes one to three minutes.</p>
+          <div class="send-bar" id="vSendBar" hidden><div id="vSendFill"></div></div>
+          <ol class="vsteps" id="vSteps"></ol>
+          <p class="small muted" id="vElapsed" style="margin-top:14px"></p>
+        </div>
+
+        <!-- Error -->
+        <div id="vError" class="card loading" hidden>
+          <i data-icon="alert" style="width:34px;height:34px;color:var(--warn);margin:0 auto 14px;display:block"></i>
+          <h3>That video could not be read</h3>
+          <p id="vErrorMsg"></p>
+          <button class="btn btn-primary" style="margin-top:22px" onclick="vReset()">Try again</button>
+        </div>
+
+        <!-- Results -->
+        <div id="vResults" class="stack" hidden>
+          <div class="notice notice-warn"><i data-icon="info"></i><div><b>Use these readings for today only</b><p id="vDisclaimer"></p></div></div>
+          <div class="card vhero" id="vHero"></div>
+          <div class="vcards" id="vCards"></div>
+          <div class="card card-pad">
+            <h2 style="font-size:19px;margin-bottom:16px">About this recording</h2>
+            <dl class="quality" id="vQuality"></dl>
+          </div>
+          <div style="text-align:center"><button class="btn btn-primary btn-lg" onclick="vReset()">Check again</button></div>
+        </div>
+      </section>
+
+      <!-- ============================== 3. Doctors ============================== -->
+      <section id="view-doctors" class="view hidden">
+        <div class="page-head">
+          <div><h1>Doctors</h1><p>Book a video or in-person consultation across Sanjeevani hospitals in the UAE.</p></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="search" style="width:260px"><i data-icon="search"></i><input class="input" type="search" id="doctorSearchInput" oninput="filterDoctors()" placeholder="Doctor, specialty or hospital" aria-label="Search doctors"></div>
+            <select class="select" id="deptSelect" onchange="filterDoctors()" style="width:auto" aria-label="Specialty">
+              <option value="all">All specialties</option>
+              <option value="Gastroenterology">Gastroenterology</option>
+              <option value="Pediatrics">Paediatrics</option>
+              <option value="Endocrinology">Endocrinology</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Oncology">Oncology</option>
+              <option value="Orthopedics">Orthopaedics</option>
+            </select>
+          </div>
+        </div>
+        <div id="docCallPanel" hidden></div><span id="docCallTargetChip" hidden></span>
+        <div id="doctorsGrid" class="grid-cards"></div>
+      </section>
+
+      <!-- ============================== 4. Labs ============================== -->
+      <section id="view-labs" class="view hidden">
+        <div class="page-head">
+          <div><h1>Lab tests</h1><p>Book a test at a Sanjeevani lab, or have the sample taken at home at no extra cost.</p></div>
+          <div class="search" style="width:280px"><i data-icon="search"></i><input class="input" type="search" id="labSearchInput" oninput="filterLabs()" placeholder="Test or panel" aria-label="Search lab tests"></div>
+        </div>
+        <div id="labsGrid" class="grid-cards"></div>
+      </section>
+
+      <!-- ============================== 5. Pharmacy ============================== -->
+      <section id="view-pharmacy" class="view hidden">
+        <div class="page-head">
+          <div><h1>Pharmacy</h1><p>Prescription medicines, children's syrups, everyday essentials and home monitoring devices.</p></div>
+          <div class="search" style="width:300px"><i data-icon="search"></i><input class="input" type="search" id="pharmacySearchInput" oninput="filterPharmacyProducts()" placeholder="Medicine, syrup or device" aria-label="Search the pharmacy"></div>
+        </div>
+
+        <div id="pharmacyStoreOrderSuccess" class="notice hidden" style="margin-bottom:18px">
+          <i data-icon="check-circle"></i>
+          <div style="flex:1"><b id="pharmacyStoreSuccessTitle">Order placed</b><p id="pharmacyStoreSuccessDetail"></p></div>
+          <button class="btn btn-icon" style="background:none" onclick="document.getElementById('pharmacyStoreOrderSuccess').classList.add('hidden')" aria-label="Dismiss"><i data-icon="x"></i></button>
+        </div>
+
+        <div class="pills" id="pharmacyCategoryPills" style="margin-bottom:20px">
+          <button onclick="setPharmacyCategory('all')" id="cat-all" class="is-active">All</button>
+          <button onclick="setPharmacyCategory('Prescription')" id="cat-Prescription">Prescription</button>
+          <button onclick="setPharmacyCategory('RPM Device')" id="cat-RPM Device">Home devices</button>
+          <button onclick="setPharmacyCategory('Pediatric Care')" id="cat-Pediatric Care">Children</button>
+          <button onclick="setPharmacyCategory('Antibiotics & Gastro')" id="cat-Antibiotics & Gastro">Stomach and antibiotics</button>
+          <button onclick="setPharmacyCategory('Rehydration & OTC')" id="cat-Rehydration & OTC">Rehydration</button>
+          <button onclick="setPharmacyCategory('Vitamins & Wellness')" id="cat-Vitamins & Wellness">Vitamins</button>
+        </div>
+
+        <div class="store">
+          <div id="pharmacyProductsGrid" class="grid-cards" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))"></div>
+
+          <aside class="cart glass">
+            <div class="row-between">
+              <h2 style="font-size:19px">Your bag</h2>
+              <button class="link plain" style="font-size:14px" onclick="clearPharmacyCart()">Clear</button>
+            </div>
+            <p class="small muted" style="margin-top:2px"><span id="cartItemsCountText">0 items</span></p>
+            <div id="pharmacyCartItemsContainer" style="margin-top:10px;max-height:300px;overflow-y:auto"></div>
+            <div class="totals">
+              <div><span>Subtotal</span><span class="num" id="cartSubtotalText">AED 0.00</span></div>
+              <div><span>Delivery</span><span class="num" id="cartDeliveryFeeText">Free</span></div>
+              <div class="grand"><span>Total</span><span class="num" id="cartGrandTotalText">AED 0.00</span></div>
+            </div>
+            <div class="seg" style="width:100%;margin-top:6px">
+              <button id="storeLabelHomeDelivery" class="is-active" style="flex:1" onclick="setStoreFulfillment('home_delivery')">Delivery</button>
+              <button id="storeLabelPickup" style="flex:1" onclick="setStoreFulfillment('self_pickup')">Pick up</button>
+            </div>
+            <div id="storeHomeAddressBox" style="margin-top:14px">
+              <div class="row-between" style="margin-bottom:6px">
+                <label class="label" for="storeDeliveryAddressInput">Delivery address</label>
+                <button type="button" class="link" style="font-size:14px" onclick="detectStoreGPSLocation()"><span id="storeDetectLocationText">Use my location</span></button>
+              </div>
+              <div class="suggest-wrap">
+                <textarea class="textarea" id="storeDeliveryAddressInput" rows="2" style="min-height:76px" autocomplete="off" aria-label="Delivery address" placeholder="Apartment, building, area, city"></textarea>
+                <div class="suggest glass" id="storeDeliveryAddressSuggestions" hidden></div>
+              </div>
+              <div id="storeNearbyPharmacies" class="nearby-mini" hidden>
+                <span class="label">Pharmacies near this address</span>
+                <div id="storeNearbyPharmaciesList"></div>
+              </div>
+            </div>
+            <div id="storePickupBox" class="hidden" style="margin-top:14px">
+              <label class="field"><span>Pharmacy</span>
+                <select class="select" id="storePickupCounterSelect">
+                  <option value="Sanjeevani Hospital, Abu Dhabi (Main Lobby Express Counter)">Sanjeevani Hospital, Abu Dhabi, main lobby (24/7)</option>
+                  <option value="Sanjeevani Medical City, MBZ City (Building B Ground Floor)">Sanjeevani Medical City, MBZ City</option>
+                  <option value="Sanjeevani Day Surgery Center, Al Reem Island">Sanjeevani Day Surgery Center, Al Reem Island</option>
+                  <option value="Sanjeevani Royal Hospital, Al Ain (West Wing Counter)">Sanjeevani Royal Hospital, Al Ain</option>
+                </select>
+              </label>
+            </div>
+            <button id="btnStoreCheckout" onclick="openStoreOrderConfirmModal()" class="btn btn-primary btn-block" style="margin-top:16px">Check out</button>
+          </aside>
+        </div>
+
+        <!-- Nearby pharmacy finder -->
+        <section class="card card-pad" id="pickupFinder" style="margin-top:28px">
+          <div class="card-head">
+            <div>
+              <h2>Find a pharmacy near you</h2>
+              <p>Nearby pharmacies, closest and open first, from OpenStreetMap data.</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <div class="seg" id="nearbyRadiusSeg" role="radiogroup" aria-label="Search radius">
+                <button type="button" data-radius="2000">2 km</button>
+                <button type="button" data-radius="4000" class="is-active">4 km</button>
+                <button type="button" data-radius="8000">8 km</button>
+              </div>
+              <input type="hidden" id="nearbyRadius" value="4000">
+              <button type="button" class="btn btn-primary" id="nearbyLocateButton" onclick="locateNearbyPharmacies()"><i data-icon="locate"></i>Use my location</button>
+            </div>
+          </div>
+          <div class="suggest-wrap" style="display:flex;gap:10px;margin-bottom:18px">
+            <div class="search" style="flex:1">
+              <i data-icon="search"></i>
+              <input class="input" id="nearbyAddress" type="text" maxlength="200" autocomplete="off" placeholder="Or search an address, building or landmark"
+                     aria-label="Pickup address or landmark">
+            </div>
+            <button type="button" class="btn btn-secondary" id="nearbyAddressButton" onclick="searchNearbyAddress()">Search</button>
+            <div class="suggest glass" id="nearbyAddressSuggestions" hidden></div>
+          </div>
+          <div class="finder">
+            <div class="finder-list">
+              <p class="small muted" id="nearbyPharmacyStatus">Use your location or search an address to see pharmacies nearby.</p>
+              <div id="nearbyPharmacyList"></div>
+            </div>
+            <div class="finder-map"><div id="pickupMap" aria-label="Map of nearby pharmacies"></div></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============================== 6. Insights ============================== -->
+      <section id="view-analytics" class="view hidden">
+        <div class="page-head">
+          <div><h1>Insights</h1><p>Calls, orders and patient satisfaction across the virtual health service.</p></div>
+        </div>
+        <div class="stack">
+          <section id="liveInsights" hidden>
+            <div class="sec-line"><h2>Live</h2><span class="muted small">From the voice assistant, right now</span></div>
+            <div class="kpis" id="liveKpis"></div>
+            <div class="chart-card" style="margin-top:14px"><h3>Calls this week</h3><p class="muted">Answered and not, per day</p><div class="chart-box"><canvas id="chartLiveCalls"></canvas></div></div>
+          </section>
+          <div class="sec-line"><h2>Sample data</h2><span class="muted small">Illustrative numbers for the pitch, not from real activity</span></div>
+          <div class="kpis">
+            <div class="kpi"><span>Calls handled</span><b>14,820</b><small class="up">+18.4% on last month</small></div>
+            <div class="kpi"><span>Answer rate</span><b>88.4%</b><small class="up">+4.2 points</small></div>
+            <div class="kpi"><span>Satisfaction</span><b>4.88<span style="font-size:15px;color:var(--ink-3);font-weight:500"> / 5</span></b><small>97.6% positive</small></div>
+            <div class="kpi"><span style="display:flex;justify-content:space-between">Pharmacy orders <span class="dot" title="Updates live"></span></span><b id="kpiPharmacyOrdersCount">3,420</b>
+              <small>Medicines <span id="kpiMedsCount">2,180</span> · Devices <span id="kpiRpmCount">410</span> · Both <span id="kpiComboCount">830</span></small></div>
+            <div class="kpi"><span>Taking medicines as prescribed</span><b>+34.2%</b><small class="up">since joining</small></div>
+            <div class="kpi"><span>Average order</span><b id="kpiAvgOrderValue">AED 285</b><small>Medicines and devices</small></div>
+          </div>
+          <div class="charts">
+            <div class="chart-card"><h3>Questions from patients</h3><p class="muted">Received and answered, past 7 days</p><div class="chart-box"><canvas id="chartVoiceCalls"></canvas></div></div>
+            <div class="chart-card"><h3>Consultations by specialty</h3><p class="muted">Share of prescriptions turned into plans</p><div class="chart-box"><canvas id="chartDepartments"></canvas></div></div>
+            <div class="chart-card"><h3>From prescription to delivery</h3><p class="muted">Patients at each step</p><div class="chart-box"><canvas id="chartFunnel"></canvas></div></div>
+            <div class="chart-card"><h3>Patient ratings</h3><p class="muted">8,420 responses</p><div class="chart-box"><canvas id="chartSentiment"></canvas></div></div>
+          </div>
+          <div class="card card-pad">
+            <div class="row-between" style="margin-bottom:8px"><h2 style="font-size:19px">Latest activity</h2><span class="small muted" style="display:flex;gap:8px;align-items:center"><span class="dot"></span>Live</span></div>
+            <div class="events" id="analyticsLiveEvents"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================== New appointment sheet (opened from Appointments and Doctors) ============================== -->
+  <div class="backdrop" id="apptSheet" hidden onclick="if(event.target===this)closeApptSheet()">
+    <form class="sheet appt-sheet" id="apptForm" onsubmit="submitAppointment(event)" role="dialog" aria-modal="true" aria-labelledby="apptSheetTitle">
+      <div class="row-between"><h2 id="apptSheetTitle" style="font-size:22px">New appointment</h2>
+        <button type="button" class="btn btn-secondary btn-icon" onclick="closeApptSheet()" aria-label="Close"><i data-icon="x"></i></button></div>
+      <label class="field"><span>Patient</span><select class="select" id="apptPatient" required></select></label>
+      <div class="field"><span>Doctor</span><div class="doc-grid" id="apptDoctors"></div></div>
+      <div class="field"><span>Day</span><input class="input" type="date" id="apptDate" required></div>
+      <div class="field"><span>Time</span><div class="slot-grid" id="apptTimes"></div><input type="hidden" id="apptSlot"></div>
+      <label class="field"><span>Reason</span><input class="input" id="apptReason" placeholder="Consultation" list="apptReasons">
+        <datalist id="apptReasons"><option>Consultation</option><option>Follow-up visit</option><option>Review test results</option><option>Medicine review</option></datalist></label>
+      <p class="small muted" id="apptFormMsg" aria-live="polite" style="min-height:20px"></p>
+      <div class="sheet-actions">
+        <button type="submit" class="btn btn-dark"><i data-icon="calendar"></i>Book now</button>
+        <button type="button" class="btn btn-secondary" id="apptCallBtn" onclick="submitAppointment(event, 'call')"><i data-icon="phone"></i>Have the assistant call to book</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ============================== Document viewer (a stored or chosen prescription, report or scan) ============================== -->
+  <div id="docViewer" class="backdrop hidden" onclick="if (event.target === this) closeDocViewer()">
+    <div class="sheet doc-sheet" role="dialog" aria-modal="true" aria-labelledby="docViewerTitle">
+      <div class="row-between">
+        <div style="min-width:0"><h2 id="docViewerTitle" style="font-size:20px">Document</h2><p class="muted small" id="docViewerSub"></p></div>
+        <div class="doc-tools">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="zoomDoc(-0.2)" aria-label="Zoom out">-</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="docZoom" onclick="zoomDoc(0)" aria-label="Reset zoom">100%</button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="zoomDoc(0.2)" aria-label="Zoom in">+</button>
+          <a class="btn btn-secondary btn-sm" id="docOpen" target="_blank" rel="noopener">Open</a>
+          <button type="button" class="btn btn-secondary btn-icon" onclick="closeDocViewer()" aria-label="Close"><i data-icon="x"></i></button>
+        </div>
+      </div>
+      <div class="doc-stage"><img id="docImg" alt="" hidden><iframe id="docFrame" title="Document" hidden></iframe></div>
+    </div>
+  </div>
+
+  <!-- ============================== Order confirmation sheet ============================== -->
+  <div id="pharmacyConfirmModal" class="backdrop hidden" onclick="if (event.target === this) closePharmacyConfirmModal()">
+    <div class="sheet glass" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="row-between">
+        <h2 id="confirmTitle" style="font-size:24px">Review your order</h2>
+        <button class="btn btn-icon btn-secondary" onclick="closePharmacyConfirmModal()" aria-label="Close"><i data-icon="x"></i></button>
+      </div>
+      <div id="modalOrderItemsList" style="margin-top:18px"></div>
+      <div style="margin-top:18px;padding:16px;border-radius:var(--r);background:rgba(255,255,255,.7);border:1px solid var(--line)">
+        <span class="label" id="modalFulfillmentHeading">Delivery to</span>
+        <p style="margin-top:4px;font-size:15px" id="modalFinalDestinationText"></p>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:22px">
+        <button class="btn btn-secondary" onclick="closePharmacyConfirmModal()">Back</button>
+        <button class="btn btn-primary" onclick="executeConfirmedOrder()" id="btnModalConfirmDispatch">Place order</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="/static/js/icons.js?v=202611021615"></script>
+  <script src="/static/js/app.js?v=202611038"></script>
+  <script src="/static/js/vitals.js?v=202611031"></script>
+  <script src="/static/js/patient.js?v=202611032"></script>
+  <script src="/static/js/timeline.js?v=2"></script>
+  <script src="/static/js/followup.js?v=2"></script>
+  <script src="/static/js/chat.js?v=2"></script>
+  <script src="/static/js/health.js?v=1"></script>
+  <script src="/static/js/events.js?v=1"></script>
+  <script src="/static/js/records.js?v=1"></script>
+  <script src="/static/js/appointments.js?v=202611044"></script>
+  <script src="/static/js/booking-sync.js?v=2"></script>
+  <script src="/static/js/alerts.js?v=2"></script>
+  <script src="/static/js/insights-live.js?v=2"></script>
+  <script src="/static/js/pickup.js?v=202611032"></script>
+  <script src="/static/js/depth.js?v=2" defer></script>
+</body>
+</html>

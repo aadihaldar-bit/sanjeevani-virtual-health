@@ -1,0 +1,52 @@
+# FastAPI and Web Framework
+fastapi>=0.115.6
+uvicorn[standard]>=0.34.0
+python-multipart>=0.0.20
+
+# Database
+sqlalchemy[asyncio]>=2.0.36
+aiosqlite>=0.21.0
+asyncpg>=0.29.0
+redis>=5.0.1
+
+# HTTP & Telephony Clients
+httpx>=0.28.1
+twilio>=9.0.0
+
+# LLM Client & Vector DB
+google-generativeai>=0.5.2
+openai>=1.0.0
+qdrant-client>=1.19.0
+faiss-cpu>=1.7.0
+pypdf>=4.0.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Logging & Storage
+python-json-logger>=2.0.7
+google-cloud-storage>=2.14.0
+
+# Development / Testing & Security Auditing
+pytest>=8.0.0
+pytest-asyncio>=0.24.0
+
+# WebSockets client
+websockets>=12.0
+
+# Authentication
+firebase-admin>=6.5.0
+
+# Free Neural Text-to-Speech Engines
+edge-tts>=6.1.9
+gTTS>=2.5.0
+
+# Pipecat Real-Time Pipeline Framework
+pipecat-ai[websocket,silero]>=1.10.0
+
+# Knowledge base / RAG (vector search + document parsing)
+fastembed>=0.3
+python-docx>=1.1
+
+# Encrypt organization provider keys at rest
+cryptography>=42.0

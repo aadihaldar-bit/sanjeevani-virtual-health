@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STL Digital Voice Agent — Telemetry & KPI Command Center</title>
+    <!-- Fonts & ApexCharts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('stl_theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } catch (e) {}
+        })();
+    </script>
+    <link rel="stylesheet" href="./static/css/dashboard.css?v=2">
+</head>
+<body>
+
+    <div class="langfuse-app-container">
+        
+        <!-- ==========================================================================
+             1. LEFT ICON SIDEBAR (48PX LANGFUSE RAIL)
+             ========================================================================== -->
+        <aside class="langfuse-sidebar">
+            <div class="sidebar-top-group">
+                <!-- Brand Glyph -->
+                <div class="sidebar-logo" title="STL Digital Voice Agent">
+                    <span>STL</span>
+                </div>
+
+                <!-- Page 1: Home / Executive Scorecard -->
+                <button class="sidebar-icon-btn active" data-page="page-home" title="Home / Executive Overview & Percentiles">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </button>
+
+                <!-- Page 2: Voice AI Pipeline Telemetry -->
+                <button class="sidebar-icon-btn" data-page="page-pipeline" title="Voice AI Pipeline Telemetry (Whisper STT, Groq LLM, Murf TTS, Summit Tool)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </button>
+
+                <!-- Page 3: Symphony Summit ITSM Execution -->
+                <button class="sidebar-icon-btn" data-page="page-itsm" title="Symphony Summit ITSM Execution & Dispatch">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </button>
+
+                <div class="sidebar-divider"></div>
+
+                <!-- Page 4: Voice Session Traces -->
+                <button class="sidebar-icon-btn" data-page="page-traces" title="Voice Session Traces (Direct GCS Audit Feed)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                    </svg>
+                </button>
+
+                <!-- Page 5: Transparent Unit Economics & Grounded Costs -->
+                <button class="sidebar-icon-btn" data-page="page-cost" title="Unit Economics & Grounded Cost Breakdown (Groq, Whisper, Murf, SIP)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Bottom User Profile Avatar -->
+            <div class="sidebar-user-avatar" title="Aadi Haldar (Entity Admin)">
+                AH
+            </div>
+        </aside>
+
+        <!-- ==========================================================================
+             2. MAIN WORKSPACE
+             ========================================================================== -->
+        <div class="langfuse-workspace">
+            
+            <!-- 2.1 GLOBAL TOPBAR -->
+            <header class="langfuse-topbar">
+                <!-- Breadcrumbs -->
+                <div class="breadcrumb-cluster">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #6366f1;">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <div class="breadcrumb-item">
+                        <span>VoiceBot support</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <span class="breadcrumb-sep">/</span>
+                    <div class="breadcrumb-item">
+                        <span style="color: var(--text-primary); font-weight: 600;">STL Digital Voice Agent</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <span class="breadcrumb-sep">/</span>
+                    <div class="breadcrumb-item">
+                        <span id="breadcrumbPageName" style="color: #93c5fd; font-weight: 500;">Home / Overview</span>
+                    </div>
+                </div>
+
+                <!-- Top Right Controls -->
+                <div class="topbar-actions">
+                    <!-- Time Range Selector -->
+                    <select id="timeRangeSelect" class="time-range-select">
+                        <option value="weekly" selected>7d &nbsp;Past 7 days</option>
+                        <option value="monthly">30d &nbsp;Past 30 days</option>
+                        <option value="yearly">365d &nbsp;Past Year</option>
+                        <option value="custom">Custom Range...</option>
+                    </select>
+
+                    <!-- Theme Switcher Toggle (Light / Dark Mode) -->
+                    <button id="themeToggleBtn" class="btn-header-ghost" title="Switch to Light Mode" aria-label="Toggle Theme">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <span id="themeToggleLabel">Light Mode</span>
+                    </button>
+
+                    <!-- Save to Bucket Button -->
+                    <button id="saveBucketBtn" class="btn-header-ghost" title="Persist latest KPI summary to GCS bucket">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        </svg>
+                        <span>Save to Bucket</span>
+                    </button>
+
+                    <!-- Export Report Button -->
+                    <button id="exportReportBtn" class="btn-header-ghost" title="Export markdown leadership report">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Export Report</span>
+                    </button>
+
+                    <!-- Sync Telemetry Button -->
+                    <button id="syncBucketBtn" class="btn-header-blue" title="Pull fresh events from GCS bucket">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        <span>Sync Telemetry</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 2.2 SUBHEADER -->
+            <div class="langfuse-subheader">
+                <div class="subheader-left">
+                    <span class="subheader-title" id="pageSubheaderTitle">Home</span>
+                    <span class="tag-badge">Env: <strong style="color: var(--text-primary); margin-left: 2px;">default</strong></span>
+                    
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 0.72rem; color: var(--text-muted);">Filters:</span>
+                        <select id="roleSelect" class="role-pill-select">
+                            <option value="all" selected>All Voice Bot KPIs</option>
+                            <option value="executive">Executive & Leadership View</option>
+                            <option value="service_desk">IT Service Desk Operations</option>
+                            <option value="devops">AI & Speech DevOps</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="subheader-right">
+                    <!-- Target Environment Tag -->
+                    <span class="tag-badge" style="background: rgba(99, 102, 241, 0.1); border-color: rgba(99, 102, 241, 0.25); color: #a5b4fc;">
+                        <span>VoiceBot Home Default</span>
+                    </span>
+
+                    <!-- GCS Live Bucket Pill -->
+                    <div class="live-bucket-chip" title="Direct bucket ingestion & storage">
+                        <div class="pulse-dot-green"></div>
+                        <span>gs://{{ bucket_name }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 3. SCROLLABLE WORKSPACE CANVAS (MULTI-PAGE CONTAINERS)
+                 ========================================================================== -->
+            <main class="langfuse-canvas">
+
+                <!-- ==================================================================
+                     PAGE 1: HOME & EXECUTIVE OVERVIEW
+                     ================================================================== -->
+                <div id="page-home" class="langfuse-page active">
+                    <!-- 3.1 MACRO EXECUTIVE SCORECARD -->
+                    <section id="secExecutive">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                            <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary);">
+                                Executive Leadership Scorecard
+                            </div>
+                            <div style="font-size: 0.7rem; color: var(--text-muted);">
+                                {{ metrics.adoption_matrix.total_calls }} Sessions Analyzed &bull; <span id="currentPeriodLabel">{{ metrics.metadata.period_label }}</span> &bull; {{ metrics.metadata.live_kpi_calls }} live KPIs &bull; <span style="color:#a78bfa;font-weight:600;">{{ metrics.engine_breakdown.label }}</span>
+                            </div>
+                        </div>
+
+                        <div class="macro-scorecards-grid">
+                            <!-- Card 1: Autonomous Deflection -->
+                            <div class="macro-card">
+                                <div class="macro-card-title">Autonomous Deflection</div>
+                                <div class="macro-card-value" id="kpiDeflectionRate" style="color: #34d399;">
+                                    {{ metrics.adoption_matrix.clearance_rate }}
+                                </div>
+                                <div class="macro-card-subtext">{{ metrics.adoption_matrix.clearance_fraction }} calls resolved by bot</div>
+                            </div>
+
+                            <!-- Card 2: Total Ingested Calls -->
+                            <div class="macro-card">
+                                <div class="macro-card-title">Total Ingested Calls</div>
+                                <div class="macro-card-value" id="kpiTotalCalls">
+                                    {{ metrics.adoption_matrix.total_calls }}
+                                </div>
+                                <div class="macro-card-subtext">Telephony + Web Simulator</div>
+                            </div>
+
+                            <!-- Card 3: Avg Handling Time -->
+                            <div class="macro-card">
+                                <div class="macro-card-title">Avg Handling Time (AHT)</div>
+                                <div class="macro-card-value" id="kpiAHT">
+                                    {{ metrics.adoption_matrix.avg_duration_formatted }}
+                                </div>
+                                <div class="macro-card-subtext">Automated session average ({{ metrics.adoption_matrix.total_calls }} calls)</div>
+                            </div>
+
+                            <!-- Card 4: Blended AI Cost / Call -->
+                            <div class="macro-card">
+                                <div class="macro-card-title">Blended AI Cost / Call</div>
+                                <div class="macro-card-value" id="kpiSavings" style="color: #34d399;">
+                                    {{ metrics.infrastructure_economics.cost_per_resolved_call }}
+                                </div>
+                                <div class="macro-card-subtext">{{ metrics.infrastructure_economics.cost_per_1k_calls }} / 1k calls &bull; {{ metrics.infrastructure_economics.total_batch_ai_cost }} total batch</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 3.2 THE THREE LANGFUSE PERCENTILE CARDS (ROW OF 3) -->
+                    <section id="secPercentiles" class="percentiles-grid">
+                        
+                        <!-- Card 1: Trace latency percentiles -->
+                        <div class="percentile-card">
+                            <div class="percentile-card-header">
+                                <div class="percentile-card-title">Trace latency percentiles</div>
+                                <button class="card-menu-dots" title="Options">&vellip;</button>
+                            </div>
+                            <table class="percentile-table">
+                                <thead>
+                                    <tr>
+                                        <th>Trace Name</th>
+                                        <th>p50</th>
+                                        <th>p90</th>
+                                        <th>p95 &#x25BC;</th>
+                                        <th>p99</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tracePercentilesTbody">
+                                    {% for row in metrics.trace_latency_percentiles %}
+                                    <tr>
+                                        <td><div class="row-name-truncate">{{ row.name }}</div></td>
+                                        <td>{{ row.p50 }}</td>
+                                        <td>{{ row.p90 }}</td>
+                                        <td>{{ row.p95 }}</td>
+                                        <td>{{ row.p99 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="percentile-card-footer">
+                                <span>&#x2304; Show all</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Generation latency percentiles -->
+                        <div class="percentile-card">
+                            <div class="percentile-card-header">
+                                <div class="percentile-card-title">Generation latency percentiles</div>
+                                <button class="card-menu-dots" title="Options">&vellip;</button>
+                            </div>
+                            <table class="percentile-table">
+                                <thead>
+                                    <tr>
+                                        <th>Generation Name</th>
+                                        <th>p50</th>
+                                        <th>p90</th>
+                                        <th>p95 &#x25BC;</th>
+                                        <th>p99</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="generationPercentilesTbody">
+                                    {% for row in metrics.generation_latency_percentiles %}
+                                    <tr>
+                                        <td><div class="row-name-truncate">{{ row.name }}</div></td>
+                                        <td>{{ row.p50 }}</td>
+                                        <td>{{ row.p90 }}</td>
+                                        <td>{{ row.p95 }}</td>
+                                        <td>{{ row.p99 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="percentile-card-footer">
+                                <span>&#x2304; Show all</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Observation latency percentiles -->
+                        <div class="percentile-card">
+                            <div class="percentile-card-header">
+                                <div class="percentile-card-title">Observation latency percentiles</div>
+                                <button class="card-menu-dots" title="Options">&vellip;</button>
+                            </div>
+                            <table class="percentile-table">
+                                <thead>
+                                    <tr>
+                                        <th>Observation</th>
+                                        <th>p50</th>
+                                        <th>p90</th>
+                                        <th>p95 &#x25BC;</th>
+                                        <th>p99</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="observationPercentilesTbody">
+                                    {% for row in metrics.observation_latency_percentiles %}
+                                    <tr>
+                                        <td>
+                                            <div class="row-name-truncate">
+                                                <span class="type-pill {% if row.type == 'TOOL' %}type-pill-tool{% endif %}">{{ row.type }}</span>
+                                                <span>{{ row.name }}</span>
+                                            </div>
+                                        </td>
+                                        <td>{{ row.p50 }}</td>
+                                        <td>{{ row.p90 }}</td>
+                                        <td>{{ row.p95 }}</td>
+                                        <td>{{ row.p99 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="percentile-card-footer">
+                                <span>&#x2304; Show all</span>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- 3.3 MODEL LATENCIES & THROUGHPUT (LANGFUSE CHART CARD) -->
+                    <section id="secModelLatencies" class="model-latencies-card">
+                        <div class="model-header-row">
+                            <div>
+                                <div class="model-header-title">Model Latencies & Daily Session Volume</div>
+                                <div class="model-header-sub" id="modelChartSubtitle">Speech & Acoustics turn latencies (seconds) &bull; 50th Percentile (p50)</div>
+                            </div>
+                            <div>
+                                <select id="modelChartFilter" class="time-range-select" style="font-size: 0.72rem;">
+                                    <option value="all_models" selected>All models (Gemini 3.8 Live, Groq, Whisper, Murf)</option>
+                                    <option value="gemini">Gemini 3.8 Live (speech-to-speech)</option>
+                                    <option value="groq">Groq LPU Only (gpt-oss-120b)</option>
+                                    <option value="whisper">Whisper Large v3 STT Only</option>
+                                    <option value="murf">Murf Falcon-2 TTS Only</option>
+                                    <option value="e2e">E2E Voice Turn Roundtrip (Fast-Path)</option>
+                                    <option value="volume">Daily Session & Incident Volume</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Percentile Tabs like Langfuse -->
+                        <div class="percentile-tabs-group" id="percentileTabsGroup">
+                            <button class="pct-tab-btn active" data-pct="p50">50th Percentile</button>
+                            <button class="pct-tab-btn" data-pct="p75">75th Percentile</button>
+                            <button class="pct-tab-btn" data-pct="p90">90th Percentile</button>
+                            <button class="pct-tab-btn" data-pct="p95">95th Percentile</button>
+                            <button class="pct-tab-btn" data-pct="p99">99th Percentile</button>
+                        </div>
+
+                        <!-- ApexCharts Area Container -->
+                        <div id="volumeAreaChart"></div>
+                    </section>
+                </div>
+
+                <!-- ==================================================================
+                     PAGE 2: VOICE AI PIPELINE TELEMETRY
+                     ================================================================== -->
+                <div id="page-pipeline" class="langfuse-page">
+                    <div class="page-header-banner">
+                        <div>
+                            <div class="page-header-title">
+                                <span>Voice AI Pipeline Telemetry & Component Latencies</span>
+                            </div>
+                            <div class="page-header-desc">
+                                Active engine: {{ metrics.engine_breakdown.label }} &bull; Summit Tool Dispatch
+                            </div>
+                        </div>
+                        <div class="engine-pill">
+                            Direct GCS Event Stream &bull; Multi-Stage Observation Traces
+                        </div>
+                    </div>
+
+                    <!-- 5 Pipeline Stage Cards Grid -->
+                    <div class="spec-kpi-grid">
+                        <!-- Stage 1: STT -->
+                        <div class="spec-kpi-card">
+                            <div class="spec-kpi-eyebrow">
+                                <span>1. Speech-to-Text (STT)</span>
+                                <span class="target-badge">{{ metrics.pipeline_telemetry.stt.engine }}</span>
+                            </div>
+                            <div class="spec-kpi-val" style="color: #38bdf8;">
+                                {{ metrics.pipeline_telemetry.stt.p50_latency }} <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">(p50)</span>
+                            </div>
+                            <div class="spec-kpi-benchmark">
+                                {{ metrics.pipeline_telemetry.stt.engine }}. p90: {{ metrics.pipeline_telemetry.stt.p90_latency }} &bull; p99: {{ metrics.pipeline_telemetry.stt.p99_latency }}.
+                            </div>
+                        </div>
+
+                        <!-- Stage 2: LLM -->
+                        <div class="spec-kpi-card">
+                            <div class="spec-kpi-eyebrow">
+                                <span>2. LLM Reasoning & Dialogue</span>
+                                <span class="target-badge">{{ metrics.pipeline_telemetry.llm.engine }}</span>
+                            </div>
+                            <div class="spec-kpi-val" style="color: #34d399;">
+                                {{ metrics.pipeline_telemetry.llm.p50_latency }} <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">(p50)</span>
+                            </div>
+                            <div class="spec-kpi-benchmark">
+                                {{ metrics.pipeline_telemetry.llm.engine }}. {{ metrics.pipeline_telemetry.llm.dialogue_resolution_rate }} resolution. p90: {{ metrics.pipeline_telemetry.llm.p90_latency }}.
+                            </div>
+                        </div>
+
+                        <!-- Stage 3: TTS -->
+                        <div class="spec-kpi-card">
+                            <div class="spec-kpi-eyebrow">
+                                <span>3. Text-to-Speech (TTS)</span>
+                                <span class="target-badge">{{ metrics.pipeline_telemetry.tts.engine }}</span>
+                            </div>
+                            <div class="spec-kpi-val" style="color: #a78bfa;">
+                                {{ metrics.pipeline_telemetry.tts.p50_latency }} <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">(p50)</span>
+                            </div>
+                            <div class="spec-kpi-benchmark">
+                                Falcon-2 chunked streaming (Aarohi persona). {{ metrics.pipeline_telemetry.tts.first_audio_byte_ms }} first audio byte. p90: {{ metrics.pipeline_telemetry.tts.p90_latency }}.
+                            </div>
+                        </div>
+
+                        <!-- Stage 4: Tool Dispatch -->
+                        <div class="spec-kpi-card">
+                            <div class="spec-kpi-eyebrow">
+                                <span>4. Symphony Summit Dispatch</span>
+                                <span class="target-badge">REST v2</span>
+                            </div>
+                            <div class="spec-kpi-val" style="color: #f59e0b;">
+                                {{ metrics.pipeline_telemetry.tool_dispatch.p50_latency }} <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">(p50)</span>
+                            </div>
+                            <div class="spec-kpi-benchmark">
+                                Enterprise incident logging with &lt; 5ms cached token pool. {{ metrics.pipeline_telemetry.tool_dispatch.success_rate }} dispatch success across {{ metrics.itsm_automation.tickets_created_summit }} incidents.
+                            </div>
+                        </div>
+
+                        <!-- Stage 5: E2E Fast-Path -->
+                        <div class="spec-kpi-card">
+                            <div class="spec-kpi-eyebrow">
+                                <span>5. Fast-Path Turnaround</span>
+                                <span class="target-badge">Sub-1.5s</span>
+                            </div>
+                            <div class="spec-kpi-val" style="color: #34d399;">
+                                {{ metrics.pipeline_telemetry.e2e_turnaround.p50_latency }} <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">(p50)</span>
+                            </div>
+                            <div class="spec-kpi-benchmark">
+                                Voice-to-voice roundtrip from user pause to first spoken response. p90: {{ metrics.pipeline_telemetry.e2e_turnaround.p90_latency }} &bull; p99: {{ metrics.pipeline_telemetry.e2e_turnaround.p99_latency }}.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline Telemetry Breakdown Table -->
+                    <div class="percentile-card" style="padding: 16px 20px; margin-top: 16px;">
+                        <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
+                            Pipeline Execution Breakdown (Direct GCS Event Telemetry)
+                        </div>
+                        <table class="cost-table">
+                            <thead>
+                                <tr>
+                                    <th>Pipeline Stage</th>
+                                    <th>Dedicated Engine</th>
+                                    <th>Telemetry Source</th>
+                                    <th>p50</th>
+                                    <th>p90</th>
+                                    <th>p95</th>
+                                    <th>p99</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">Speech-to-Text (STT)</strong></td>
+                                    <td>Groq Whisper Large v3 (FP16 LPU)</td>
+                                    <td><code style="font-size: 0.68rem; color: #93c5fd;">call_kpis.stt_latency_ms</code></td>
+                                    <td>{{ metrics.pipeline_telemetry.stt.p50_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.stt.p90_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.stt.p95_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.stt.p99_latency }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">LLM Dialogue Reasoning</strong></td>
+                                    <td>{{ metrics.pipeline_telemetry.llm.engine }}</td>
+                                    <td><code style="font-size: 0.68rem; color: #93c5fd;">call_kpis.llm_route_latency_ms</code></td>
+                                    <td>{{ metrics.pipeline_telemetry.llm.p50_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.llm.p90_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.llm.p95_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.llm.p99_latency }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">Text-to-Speech (TTS)</strong></td>
+                                    <td>Murf Falcon-2 Chunked Streaming</td>
+                                    <td><code style="font-size: 0.68rem; color: #93c5fd;">call_kpis.tts_ttfb_ms</code></td>
+                                    <td>{{ metrics.pipeline_telemetry.tts.p50_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.tts.p90_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.tts.p95_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.tts.p99_latency }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">ITSM Incident Creation</strong></td>
+                                    <td>Symphony Summit REST v2</td>
+                                    <td><code style="font-size: 0.68rem; color: #93c5fd;">N/A (not instrumented yet)</code></td>
+                                    <td>{{ metrics.pipeline_telemetry.tool_dispatch.p50_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.tool_dispatch.p90_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.tool_dispatch.p95_latency }}</td>
+                                    <td>{{ metrics.pipeline_telemetry.tool_dispatch.p99_latency }}</td>
+                                </tr>
+                                <tr class="cost-highlight-row">
+                                    <td><strong style="color: #ffffff;">E2E Voice Roundtrip</strong></td>
+                                    <td><strong style="color: #ffffff;">STT + LLM + TTS Streaming Pipeline</strong></td>
+                                    <td><code style="font-size: 0.68rem; color: #34d399;">call_kpis.total_turn_latency_ms</code></td>
+                                    <td><strong style="color: #34d399;">{{ metrics.pipeline_telemetry.e2e_turnaround.p50_latency }}</strong></td>
+                                    <td><strong style="color: #34d399;">{{ metrics.pipeline_telemetry.e2e_turnaround.p90_latency }}</strong></td>
+                                    <td><strong style="color: #34d399;">{{ metrics.pipeline_telemetry.e2e_turnaround.p95_latency }}</strong></td>
+                                    <td><strong style="color: #34d399;">{{ metrics.pipeline_telemetry.e2e_turnaround.p99_latency }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================================================================
+                     PAGE 7: SYMPHONY SUMMIT ITSM EXECUTION
+                     ================================================================== -->
+                <div id="page-itsm" class="langfuse-page">
+                    <div class="page-header-banner">
+                        <div>
+                            <div class="page-header-title">
+                                <span>Symphony Summit ITSM Execution & API Dispatch</span>
+                            </div>
+                            <div class="page-header-desc">
+                                Enterprise ticketing automation, incident taxonomy distribution, and tool dispatch metrics
+                            </div>
+                        </div>
+                        <div class="engine-pill">
+                            Symphony Summit REST v2 &bull; Cached Auth Identity Pool
+                        </div>
+                    </div>
+
+                    <div class="itsm-insights-grid">
+                        <!-- Left: Incident Distribution Donut -->
+                        <div class="percentile-card" style="padding: 16px 20px;">
+                            <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
+                                Summit ITSM Category Distribution
+                            </div>
+                            <div id="categoryDonutChart"></div>
+                        </div>
+
+                        <!-- Right: Tool Dispatch & SLI Metrics -->
+                        <div class="percentile-card" style="padding: 16px 20px;">
+                            <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 14px;">
+                                Tool & Symphony Summit API Execution
+                            </div>
+
+                            <div class="itsm-metric-row">
+                                <span class="itsm-metric-label">Total Incidents Raised</span>
+                                <span class="itsm-metric-val" id="valSummitTickets">{{ metrics.itsm_automation.tickets_created_summit }}</span>
+                            </div>
+                            <div class="itsm-metric-row">
+                                <span class="itsm-metric-label">Tool Dispatch Success Rate</span>
+                                <span class="itsm-metric-val" id="valToolSuccess" style="color: #34d399;">{{ metrics.itsm_automation.tool_dispatch_success_rate }}</span>
+                            </div>
+                            <div class="itsm-metric-row">
+                                <span class="itsm-metric-label">Tool Dispatch Latency</span>
+                                <span class="itsm-metric-val" id="valToolLatency">{{ metrics.itsm_automation.tool_dispatch_avg_latency_ms }} ms</span>
+                            </div>
+                            <div class="itsm-metric-row">
+                                <span class="itsm-metric-label">Cached Identity Token Lookup</span>
+                                <span class="itsm-metric-val" id="valCachedTokenTime" style="color: #38bdf8;">{{ metrics.itsm_automation.cached_identity_token_lookup_ms }} ms</span>
+                            </div>
+                            <div class="itsm-metric-row">
+                                <span class="itsm-metric-label">SLA Adherence Compliance</span>
+                                <span class="itsm-metric-val" id="valSlaRate">{{ metrics.itsm_automation.sla_adherence_rate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================
+                     PAGE 8: VOICE SESSION TRACES (AUDIT LOGS)
+                     ================================================================== -->
+                <div id="page-traces" class="langfuse-page">
+                    <div class="page-header-banner">
+                        <div>
+                            <div class="page-header-title">
+                                <span>Voice Session Traces & Audit Feed</span>
+                            </div>
+                            <div class="page-header-desc">
+                                End-to-end conversation logs, caller telemetry, latency waterfalls, and Summit incident audit trail
+                            </div>
+                        </div>
+                        <div class="engine-pill">
+                            Direct GCS Bucket Stream: gs://{{ bucket_name }}/
+                        </div>
+                    </div>
+
+                    <div class="traces-table-card">
+                        <div class="traces-table-header">
+                            <div>
+                                <span style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary);">Recent Voice Sessions</span>
+                                <span style="font-size: 0.72rem; color: var(--text-muted); margin-left: 8px;">Direct GCS bucket audit feed &bull; {{ metrics.recent_calls|length }} recent sessions</span>
+                            </div>
+                        </div>
+
+                        <table class="traces-table">
+                            <thead>
+                                <tr>
+                                    <th>Trace / Session ID</th>
+                                    <th>Timestamp</th>
+                                    <th>Caller</th>
+                                    <th>Intent / Summary</th>
+                                    <th>Duration</th>
+                                    <th>Latency</th>
+                                    <th>Summit Incident</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sessionAuditTbody">
+                                {% for c in metrics.recent_calls %}
+                                <tr class="call-row" data-call-idx="{{ loop.index0 }}" style="cursor: pointer;" title="Click to expand call details">
+                                    <td>
+                                        <span class="type-pill">TRACE</span>
+                                        <strong style="color: #93c5fd;">#{{ c.id }}</strong>
+                                        <span style="font-size: 0.6rem; color: {% if c.kpi_source == 'live' %}#34d399{% else %}#f59e0b{% endif %}; margin-left: 4px;">{{ c.kpi_source }}</span>
+                                    </td>
+                                    <td>{{ c.timestamp }}</td>
+                                    <td>{{ c.caller }}</td>
+                                    <td>
+                                        <div style="color: var(--text-primary); font-weight: 500;">{{ c.intent }}</div>
+                                        <div style="font-size: 0.68rem; color: var(--text-muted); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ c.transcript_preview }}</div>
+                                    </td>
+                                    <td>{{ c.duration }}</td>
+                                    <td style="color: #34d399;">{{ c.latency }}</td>
+                                    <td>{{ c.ticket_id }}</td>
+                                    <td>
+                                        <span class="status-badge {% if c.status == 'Escalated' %}status-badge-warn{% else %}status-badge-ok{% endif %}">
+                                            {{ c.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="call-detail-row" id="call-detail-{{ loop.index0 }}" style="display: none;">
+                                    <td colspan="8" style="padding: 0;">
+                                        <div class="call-detail-panel">
+                                            <div class="call-detail-grid">
+                                                <!-- KPI Summary -->
+                                                <div class="call-detail-section">
+                                                    <div class="call-detail-section-title">Per-Call KPIs</div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">STT Latency</span>
+                                                        <span class="kpi-val">{{ (c.call_kpis.stt_latency_ms or {}).get('avg', 'N/A') }} ms</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">LLM Route Latency</span>
+                                                        <span class="kpi-val">{{ (c.call_kpis.llm_route_latency_ms or {}).get('avg', 'N/A') }} ms</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">TTS TTFB</span>
+                                                        <span class="kpi-val">{{ (c.call_kpis.tts_ttfb_ms or {}).get('avg', 'N/A') }} ms</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">E2E Turn Latency</span>
+                                                        <span class="kpi-val">{{ (c.call_kpis.total_turn_latency_ms or {}).get('avg', 'N/A') }} ms</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">User Turns</span>
+                                                        <span class="kpi-val">{{ c.call_kpis.get('turn_count', 'N/A') }}</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Interruptions</span>
+                                                        <span class="kpi-val">{{ c.call_kpis.get('interruption_count', 0) }}</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Tokens (prompt / completion)</span>
+                                                        <span class="kpi-val">{{ (c.call_kpis.token_usage or {}).get('prompt_tokens', 'N/A') }} / {{ (c.call_kpis.token_usage or {}).get('completion_tokens', 'N/A') }}</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Estimated Cost</span>
+                                                        <span class="kpi-val" style="color: #34d399;">${{ (c.call_kpis.estimated_cost_usd or {}).get('total', 'N/A') }}</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">KPI Source</span>
+                                                        <span class="kpi-val" style="color: {% if c.kpi_source == 'live' %}#34d399{% else %}#f59e0b{% endif %};">{{ c.kpi_source }}</span>
+                                                    </div>
+                                                    {% if c.ticket.get('ticket_id') %}
+                                                    <div class="call-detail-kpi-row" style="margin-top: 8px; border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+                                                        <span class="kpi-label">Summit Ticket</span>
+                                                        <span class="kpi-val" style="color: #93c5fd;">{{ c.ticket.ticket_id }}</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Category</span>
+                                                        <span class="kpi-val">{{ c.ticket.get('category', 'N/A') }}</span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Priority</span>
+                                                        <span class="kpi-val">{{ c.ticket.get('priority', 'N/A') }}</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% set sec = c.call_kpis.get('security', {}) if c.call_kpis else {} %}
+                                                    {% if sec %}
+                                                    <div class="call-detail-kpi-row" style="margin-top: 8px; border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+                                                        <span class="kpi-label">🛡 Security Guard</span>
+                                                        <span class="kpi-val" style="color: {% if sec.get('max_threat_severity', 0) >= 2 %}#ef4444{% elif sec.get('max_threat_severity', 0) >= 1 %}#f59e0b{% else %}#34d399{% endif %};">
+                                                            Severity {{ sec.get('max_threat_severity', 0) }}/3
+                                                        </span>
+                                                    </div>
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Jailbreak Attempts</span>
+                                                        <span class="kpi-val" style="color: {% if sec.get('jailbreak_attempts', 0) > 0 %}#ef4444{% else %}#34d399{% endif %};">
+                                                            {{ sec.get('jailbreak_attempts', 0) }}
+                                                        </span>
+                                                    </div>
+                                                    {% if sec.get('attack_types_seen') %}
+                                                    <div class="call-detail-kpi-row">
+                                                        <span class="kpi-label">Attack Types</span>
+                                                        <span class="kpi-val" style="color: #ef4444;">{{ sec.get('attack_types_seen', []) | join(', ') }}</span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Transcript -->
+                                                <div class="call-detail-section">
+                                                    <div class="call-detail-section-title">Full Transcript</div>
+                                                    <div class="call-transcript-log">
+                                                        {% for turn in c.transcript %}
+                                                        {% if turn is mapping %}
+                                                        <div class="transcript-turn {{ 'transcript-user' if turn.role == 'user' else 'transcript-agent' }}">
+                                                            <span class="transcript-role">{{ turn.role | upper }}</span>
+                                                            <span class="transcript-text">{{ turn.text }}</span>
+                                                        </div>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                        {% if not c.transcript %}
+                                                        <div style="color: var(--text-muted); font-size: 0.72rem;">No transcript available</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================================================================
+                     PAGE 9: TRANSPARENT UNIT ECONOMICS & GROUNDED COSTS
+                     ================================================================== -->
+                <div id="page-cost" class="langfuse-page">
+                    <div class="page-header-banner">
+                        <div>
+                            <div class="page-header-title">
+                                <span>Transparent Unit Economics & Grounded Cost Breakdown</span>
+                            </div>
+                            <div class="page-header-desc">
+                                Verified cost itemization per cent across Groq LPU, Whisper STT, Murf TTS, Carrier SIP trunking, and Cloud Run compute
+                            </div>
+                        </div>
+                        <div class="engine-pill">
+                            Public API Tariffs &bull; Dedicated Infrastructure Run Rates
+                        </div>
+                    </div>
+
+                    <!-- Macro Cost Breakdown Cards -->
+                    <div class="macro-scorecards-grid">
+                        <div class="macro-card">
+                            <div class="macro-card-title">Blended Cost per Call</div>
+                            <div class="macro-card-value" style="color: #34d399;">
+                                {{ metrics.infrastructure_economics.cost_per_resolved_call }}
+                            </div>
+                            <div class="macro-card-subtext">LLM + STT + TTS per call</div>
+                        </div>
+
+                        <div class="macro-card">
+                            <div class="macro-card-title">Cost per 1,000 Voice Calls</div>
+                            <div class="macro-card-value" style="color: #34d399;">
+                                {{ metrics.infrastructure_economics.cost_per_1k_calls }}
+                            </div>
+                            <div class="macro-card-subtext">Computed from real per-call costs</div>
+                        </div>
+
+                        <div class="macro-card">
+                            <div class="macro-card-title">Total Batch AI Compute</div>
+                            <div class="macro-card-value" style="color: #38bdf8;">
+                                {{ metrics.cost_breakdown_transparent.batch_summary.total_ai_batch_cost_usd }}
+                            </div>
+                            <div class="macro-card-subtext">{{ metrics.adoption_matrix.total_calls }} sessions analyzed</div>
+                        </div>
+
+                        <div class="macro-card">
+                            <div class="macro-card-title">Avg Session Duration</div>
+                            <div class="macro-card-value" style="color: #38bdf8;">
+                                {{ metrics.adoption_matrix.avg_duration_formatted }}
+                            </div>
+                            <div class="macro-card-subtext">Across {{ metrics.adoption_matrix.total_calls }} calls</div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Grounded Unit Cost Table -->
+                    <div class="percentile-card" style="padding: 16px 20px;">
+                        <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
+                            Itemized Pricing Tariff & Hardware Formula (Where Every Cent Comes From)
+                        </div>
+
+                        <table class="cost-table">
+                            <thead>
+                                <tr>
+                                    <th>Technology Component</th>
+                                    <th>Provider & Dedicated Engine</th>
+                                    <th>Public Tariff Rate</th>
+                                    <th>Avg Usage per Voice Call</th>
+                                    <th>Itemized Cost / Call</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">LLM Reasoning & Dialogue</strong></td>
+                                    <td>{{ metrics.pipeline_telemetry.llm.engine }}</td>
+                                    <td>$0.59 / 1M prompt &bull; $0.79 / 1M completion</td>
+                                    <td>~{{ metrics.cost_breakdown_transparent.batch_summary.avg_prompt_tokens_per_call }} prompt + ~{{ metrics.cost_breakdown_transparent.batch_summary.avg_completion_tokens_per_call }} completion tokens</td>
+                                    <td><strong style="color: #93c5fd;">${{ "%.5f"|format(metrics.cost_breakdown_transparent.per_call_itemized_usd.llm_inference_cost) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">Speech-to-Text (STT)</strong></td>
+                                    <td>Groq Whisper Large v3 (FP16 LPU)</td>
+                                    <td>$0.00005 / audio second ($0.003 / min)</td>
+                                    <td>~{{ metrics.cost_breakdown_transparent.batch_summary.avg_session_duration_sec }}s avg session</td>
+                                    <td><strong style="color: #93c5fd;">${{ "%.5f"|format(metrics.cost_breakdown_transparent.per_call_itemized_usd.stt_transcription_cost) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: var(--text-primary);">Text-to-Speech (TTS)</strong></td>
+                                    <td>Murf Falcon-2 & Sarvam Bulbul</td>
+                                    <td>$0.015 / 1,000 characters synthesized</td>
+                                    <td>~{{ metrics.cost_breakdown_transparent.batch_summary.avg_tts_chars_per_call }} chars per call</td>
+                                    <td><strong style="color: #93c5fd;">${{ "%.5f"|format(metrics.cost_breakdown_transparent.per_call_itemized_usd.tts_synthesis_cost) }}</strong></td>
+                                </tr>
+                                <tr class="cost-highlight-row">
+                                    <td><strong style="color: #ffffff;">TOTAL AI COST PER CALL</strong></td>
+                                    <td><strong style="color: #ffffff;">LLM + STT + TTS</strong></td>
+                                    <td><strong style="color: #ffffff;">From real per-call KPIs</strong></td>
+                                    <td><strong style="color: #ffffff;">{{ metrics.adoption_matrix.total_calls }} sessions averaged</strong></td>
+                                    <td><strong style="color: #34d399; font-size: 0.95rem;">{{ metrics.infrastructure_economics.cost_per_resolved_call }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Explanatory Infrastructure Note -->
+                    <div class="percentile-card" style="padding: 16px 20px;">
+                        <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
+                            Enterprise Infrastructure & Unit Cost Predictability
+                        </div>
+                        <p style="font-size: 0.74rem; color: var(--text-secondary); line-height: 1.6;">
+                            Every cent of operational cost is deterministic and directly tied to public API and hardware runtimes. With zero fixed per-agent licensing fees, costs scale strictly with usage: <strong>Groq LPU</strong> ($0.59–$0.79/1M tokens) handles multi-turn reasoning; <strong>Whisper Large v3</strong> ($0.003/min) transcribes incoming audio; <strong>Murf Falcon-2</strong> ($0.015/1k chars) synthesizes human-cadence voice streaming; and <strong>Carrier SIP trunking</strong> ($0.014/min) routes audio packets over Cloud Run. At <strong>$0.03575 per complete session</strong>, high-volume enterprise workloads achieve complete financial predictability.
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- Hidden Anchor Placeholders for JavaScript compatibility -->
+                <div style="display: none;">
+                    <div id="kpiTurnLatency">{{ metrics.adoption_matrix.avg_turn_latency_sec }}</div>
+                    <div id="valSttLatency">{{ metrics.speech_acoustics.stt_latency_ms }} ms</div>
+                    <div id="valTtsDelivery">{{ metrics.speech_acoustics.tts_first_sentence_ms }} ms</div>
+                    <div id="valVadCutoff">{{ metrics.speech_acoustics.vad_cutoff_ms }} ms</div>
+                    <div id="valBargeInRate">{{ metrics.speech_acoustics.barge_in_interruption_rate }}</div>
+                    <div id="valEscalationRate">{{ metrics.conversational_intelligence.human_escalation_rate }}</div>
+                    <div id="valLlmTtfb">{{ metrics.infrastructure_economics.llm_reasoning_ttfb_ms }} ms</div>
+                    <div id="valTotalTokens">{{ metrics.token_usage.total_tokens }}</div>
+                    <div id="valAiCostPerCall">{{ metrics.infrastructure_economics.cost_per_resolved_call }}</div>
+                    <div id="valCostPer1k">{{ metrics.infrastructure_economics.cost_per_1k_calls }}</div>
+                    <div id="valArchivedCallsCount">{{ metrics.adoption_matrix.total_calls }} Calls Archived</div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Pass Initial JSON Payload to Frontend JS -->
+    <script>
+        window.INITIAL_METRICS = {{ metrics_json | safe }};
+    </script>
+    <script src="./static/js/dashboard.js?v=2"></script>
+</body>
+</html>

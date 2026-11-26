@@ -1,0 +1,41 @@
+# Git repository data
+.git
+.gitignore
+.github
+
+# Secrets, certificates, and environment files
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+*.crt
+
+# Node & Python dependencies and build caches
+node_modules/
+.next/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage/
+
+# Local databases and runtime state
+*.db
+*.sqlite
+voice_agent.db
+data/
+recordings/
+faiss_data/
+qdrant_data/
+logs/
+*.log
+
+# Documentation & presentation scratch
+scratch/
+*.pptx
+*.wav
+*.mp3

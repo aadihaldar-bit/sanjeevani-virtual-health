@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanjeevani Virtual Health</title>
+  <meta name="description" content="Your prescription becomes a clear plan, your medicines come to your door, and a one-minute video checks how you are doing.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230c2340'/><path d='M6 17h5l2.5-6 4 11 2.5-5H26' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/sanjeevani.css?v=202611021050">
+  <link rel="stylesheet" href="/static/css/refine.css?v=12">
+  <link rel="stylesheet" href="/static/css/depth.css?v=4">
+</head>
+<body>
+
+  <header class="gnav glass">
+    <div class="wrap gnav-in">
+      <a class="brand" href="/" aria-label="Sanjeevani Virtual Health home">
+        <span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M3 12.5h4l2-5 3.5 10 2.5-5H21"/></svg></span>
+        <b>Sanjeevani</b><span>Virtual Health</span>
+      </a>
+      <nav class="gnav-links" aria-label="Sections">
+        <a href="#care-plans">Care plans</a>
+        <a href="#vitals">Vitals check</a>
+        <a href="#pharmacy">Pharmacy</a>
+        <a href="#questions">Questions</a>
+        <a href="#how">How it works</a>
+      </nav>
+      <a class="btn btn-primary" href="/app">Open the app</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="ambient">
+      <div class="wrap hero">
+        <p class="eyebrow reveal">Sanjeevani Virtual Health</p>
+        <h1 class="reveal">Care that goes home with you.</h1>
+        <p class="hero-sub reveal">Your prescription becomes a plan you can follow, your medicines come to your door, and a one-minute video shows how you are doing.</p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary btn-lg" href="/app">Get started</a>
+          <a class="link" href="/app#vitals">Check your vitals</a>
+        </div>
+
+        <div class="stage-hero reveal" aria-hidden="true">
+          <div class="float float-plan glass">
+            <h4><i data-icon="doc"></i> Your care plan</h4>
+            <div style="margin-top:12px">
+              <div class="med"><div class="med-ico"><i data-icon="pill"></i></div><div><b>Metformin 500 mg</b><span>Twice a day, after meals</span></div></div>
+              <div class="med"><div class="med-ico"><i data-icon="pill"></i></div><div><b>Atorvastatin 20 mg</b><span>Once at night</span></div></div>
+              <div class="med"><div class="med-ico"><i data-icon="flask"></i></div><div><b>HbA1c blood test</b><span>In 3 months, sample taken at home</span></div></div>
+            </div>
+          </div>
+
+          <div class="float float-vitals glass">
+            <h4><i data-icon="heart"></i> Heart rate</h4>
+            <div class="big-bpm">72<small>bpm</small></div>
+            <svg class="pulse-line" viewBox="0 0 300 64" preserveAspectRatio="none">
+              <path d="M0 40 H48 l8 -4 l6 4 h18 l6 -30 l8 50 l6 -26 h22 l8 -5 l6 5 H170 l8 -4 l6 4 h18 l6 -30 l8 50 l6 -26 h22 l8 -5 l6 5 H300"/>
+            </svg>
+            <div class="mini-stats">
+              <div><b>14</b><span>breaths/min</span></div>
+              <div><b>Steady</b><span>rhythm</span></div>
+              <div><b>Relaxed</b><span>stress</span></div>
+            </div>
+          </div>
+
+          <div class="float float-delivery glass">
+            <h4><i data-icon="truck"></i> Pharmacy order</h4>
+            <div class="track">
+              <div class="track-step done"><i></i>Prescription checked</div>
+              <div class="track-step done"><i></i>Packed at Sanjeevani Pharmacy</div>
+              <div class="track-step now"><i></i>On the way to Al Reem Island</div>
+              <div class="track-step"><i></i>Delivered</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product tiles -->
+    <section class="tiles" id="care-plans">
+      <article class="tile reveal">
+        <h3>Prescription to plan.</h3>
+        <p>Type it or take a photo. Get a daily schedule in English and Arabic.</p>
+        <div class="tile-links"><a class="link" href="#how">Learn more</a><a class="link" href="/app">Try it</a></div>
+        <div class="tile-art">
+          <div class="glass">
+            <div class="row-between"><b style="font-size:15px">Today</b><span class="chip chip-accent">3 doses</span></div>
+            <div class="med"><div class="med-ico"><i data-icon="sun"></i></div><div><b>8:00</b><span>Metformin 500 mg, after breakfast</span></div></div>
+            <div class="med"><div class="med-ico"><i data-icon="sun"></i></div><div><b>20:00</b><span>Metformin 500 mg, after dinner</span></div></div>
+            <div class="med"><div class="med-ico"><i data-icon="clock"></i></div><div><b>22:00</b><span>Atorvastatin 20 mg</span></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile tile-dark reveal" id="vitals">
+        <h3>Vitals from a video.</h3>
+        <p>Sit in front of your camera for a minute. See your pulse, breathing and more.</p>
+        <div class="tile-links"><a class="link" href="#vitals-more">Learn more</a><a class="link" href="/app#vitals">Try it</a></div>
+        <div class="tile-art">
+          <div class="glass-dark">
+            <div class="row-between"><span class="small" style="color:#a1a1a6">Heart rate</span><span class="chip" style="background:rgba(255,255,255,.12);color:#fff">Approximate</span></div>
+            <div class="big-bpm" style="font-size:72px">68<small style="color:#a1a1a6">bpm</small></div>
+            <div class="mini-stats">
+              <div style="background:rgba(255,255,255,.08)"><b>12</b><span style="color:#a1a1a6">breaths/min</span></div>
+              <div style="background:rgba(255,255,255,.08)"><b>46 ms</b><span style="color:#a1a1a6">HRV</span></div>
+              <div style="background:rgba(255,255,255,.08)"><b>Alert</b><span style="color:#a1a1a6">eyes</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile tile-navy reveal" id="pharmacy">
+        <h3>Pharmacy, delivered.</h3>
+        <p>Same-day delivery, or pick up at a Sanjeevani counter in 30 minutes.</p>
+        <div class="tile-links"><a class="link" href="/app#pharmacy">Shop the pharmacy</a></div>
+        <div class="tile-art">
+          <div class="glass-dark">
+            <div class="track" style="margin-top:0">
+              <div class="track-step done" style="color:#fff"><i></i>Order placed</div>
+              <div class="track-step done" style="color:#fff"><i></i>Packed</div>
+              <div class="track-step now" style="color:#fff"><i></i>Courier on the way, 2-3 hours</div>
+              <div class="track-step" style="color:rgba(255,255,255,.5)"><i style="border-color:rgba(255,255,255,.3)"></i>At your door</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile reveal">
+        <h3>Specialists and labs.</h3>
+        <p>Book a consultation, or have a blood sample taken at home.</p>
+        <div class="tile-links"><a class="link" href="/app#doctors">Find a doctor</a><a class="link" href="/app#labs">Book a test</a></div>
+        <div class="tile-art">
+          <div class="glass">
+            <div class="med"><span class="avatar avatar-lg">MA</span><div><b>Dr. Mansoor Ali</b><span>Endocrinology, Sanjeevani Medical City</span></div></div>
+            <div class="med"><span class="avatar avatar-lg" style="background:#1d8a5a">SN</span><div><b>Dr. Sonia</b><span>Pediatrics, next opening today 18:00</span></div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- The monitor: a voice call, played like a product video -->
+    <section class="monitor-sec" id="voice">
+      <div class="wrap">
+        <h2 class="reveal">Ask out loud. Hear it explained.</h2>
+        <p class="lead reveal">Your care assistant walks through each medicine by voice, in English or Arabic, and answers your questions as you go.</p>
+        <div class="monitor" id="monitor" role="img" aria-label="A sample phone call in which the care assistant explains two medicines to a patient">
+          <div class="monitor-bezel">
+            <div class="monitor-screen">
+              <div class="mon-side">
+                <small>Your plan</small>
+                <div class="mon-med"><i data-icon="pill"></i><div><b>Metformin 500 mg</b><span>Twice a day, after meals</span></div></div>
+                <div class="mon-med"><i data-icon="pill"></i><div><b>Atorvastatin 20 mg</b><span>Once at night</span></div></div>
+                <div class="mon-med"><i data-icon="flask"></i><div><b>HbA1c blood test</b><span>In 3 months, at home</span></div></div>
+              </div>
+              <div class="mon-main">
+                <div class="mon-top"><span class="live"><i></i>On a call</span><span>Sample conversation <span class="mon-clock" style="margin-left:8px">00:00</span></span></div>
+                <div class="voice-stage">
+                  <div class="orb" data-state="idle"><i></i></div>
+                  <div class="caption" aria-live="off"></div>
+                </div>
+                <div>
+                  <div class="mon-bar"><i></i></div>
+                  <div class="mon-ctl"><button type="button" aria-label="Pause">❚❚</button><span>A scripted example. Real calls use the patient's own plan.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="monitor-stand"></div><div class="monitor-base"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vitals spotlight -->
+    <section class="section section-dark" id="vitals-more">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>One minute.<br>Eight readings.</h2>
+          <p>Each heartbeat changes the colour of your skin very slightly. Your camera picks that up, and our model reads it.</p>
+        </div>
+        <div class="readings reveal">
+          <div class="reading"><i data-icon="heart"></i><h3>Heart rate</h3><p>Beats per minute, from the colour of your face.</p></div>
+          <div class="reading"><i data-icon="wind"></i><h3>Breathing</h3><p>Breaths per minute, from the rise and fall of your head and chest.</p></div>
+          <div class="reading"><i data-icon="wave"></i><h3>Breathing pattern</h3><p>Whether your breaths are even, with pauses and deep sighs noted.</p></div>
+          <div class="reading"><i data-icon="pulse"></i><h3>Heart-rate variability</h3><p>How much the time between beats changes.</p></div>
+          <div class="reading"><i data-icon="gauge"></i><h3>Pulse rhythm</h3><p>How even the beats look in the video.</p></div>
+          <div class="reading"><i data-icon="drop"></i><h3>Pulse strength</h3><p>To compare with your own earlier checks.</p></div>
+          <div class="reading"><i data-icon="eye"></i><h3>Alertness</h3><p>Blinks and eye closure, the usual signs of tiredness.</p></div>
+          <div class="reading"><i data-icon="leaf"></i><h3>Stress</h3><p>From your heart rate, its variability and your breathing.</p></div>
+        </div>
+        <div class="stats">
+          <div class="stat reveal"><b>2-3 bpm</b><span>average heart-rate error on phone-quality video, tested on 42 people</span></div>
+          <div class="stat reveal"><b>60 sec</b><span>is all it takes, with your face in good light</span></div>
+          <div class="stat reveal"><b>0</b><span>videos kept. Each one is deleted as soon as it has been read.</span></div>
+        </div>
+        <p class="fine">Wellness estimates from video, not a medical device. Readings can be wrong, especially those marked low confidence. Blood oxygen is not measured from video. For anything worrying, see a doctor.</p>
+      </div>
+    </section>
+
+    <!-- Questions -->
+    <section class="section section-white" id="questions">
+      <div class="wrap split">
+        <div class="reveal">
+          <p class="eyebrow">Questions about your medicines</p>
+          <h2>Ask at 2 a.m. Get an answer.</h2>
+          <p class="lead">Can I take it with milk? What if I miss a dose? Ask by voice, any time, and a duty doctor is one tap away if you need a person.</p>
+          <p style="margin-top:24px"><a class="link" href="/app">Try it with a sample prescription</a></p>
+        </div>
+        <div class="phone-wrap reveal" id="chatDemo" role="img" aria-label="A sample chat in which a patient asks about a medicine by voice and the care assistant answers">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-bar"><span class="phone-notch"></span></div>
+              <div class="chat-head"><span class="chat-av">B</span><div><b>Sanjeevani care assistant</b><small>Ask by voice or text</small></div></div>
+              <div class="chat" aria-live="off"></div>
+              <div class="chat-foot"><span>Ask about your medicines</span><i data-icon="mic"></i></div>
+            </div>
+          </div>
+          <div class="chat-ctl"><button type="button" aria-label="Pause">❚❚</button><span>A scripted example</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>From the clinic to your kitchen table.</h2>
+          <p>Sanjeevani Virtual Health sits alongside your hospital record, so nothing has to be typed twice.</p>
+        </div>
+        <div class="steps3">
+          <div class="step3 reveal"><h3>Your doctor prescribes.</h3><p>The consultation note or a photo of the prescription is all we need.</p></div>
+          <div class="step3 reveal"><h3>You get a plan.</h3><p>Medicines, timings, follow-up visits, lab tests and diet advice, in English and Arabic.</p></div>
+          <div class="step3 reveal"><h3>We stay with you.</h3><p>Refills arrive at your door, questions get answered, and a quick video check shows how you are doing.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band section-white">
+      <h2 class="reveal">Start with your prescription.</h2>
+      <p class="reveal">Try it with one of the sample cases. It takes about a minute.</p>
+      <a class="btn btn-primary btn-lg reveal" href="/app">Open the app</a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>Sanjeevani Virtual Health is a demonstration of a patient engagement layer for Sanjeevani Holdings. Doctors, prices and orders shown in the app are sample data.</p>
+      <p>Vitals check gives wellness estimates from video and is not a medical device. It does not diagnose any condition. Readings are for the current session only and are not stored.</p>
+      <div class="foot-row">
+        <span>Sanjeevani Holdings, Abu Dhabi, United Arab Emirates</span>
+        <nav><a href="/app">App</a><a href="/presentation">Executive deck</a><a href="/docs">API</a></nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/icons.js?v=202611021050"></script>
+  <script src="/static/js/landing-demo.js?v=3"></script>
+  <script src="/static/js/landing-chat.js?v=1"></script>
+  <script>
+    // Fade sections in as they scroll into view.
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+  <script src="/static/js/depth.js?v=2" defer></script>
+</body>
+</html>

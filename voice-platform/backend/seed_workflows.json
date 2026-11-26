@@ -1,0 +1,930 @@
+[
+  {
+    "id": 2,
+    "name": "Global E‑Commerce 12‑Agent Support Workflow",
+    "description": null,
+    "is_active": false,
+    "created_at": "2026-08-23T03:24:58.342468",
+    "updated_at": "2026-08-26T08:04:55.064011",
+    "nodes": [
+      {
+        "id": "w2_n-start",
+        "workflow_id": 2,
+        "type": "startNode",
+        "position_x": 600.0,
+        "position_y": 50.0,
+        "data_json": {
+          "name": "Start"
+        }
+      },
+      {
+        "id": "w2_n-agent-1",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 100.0,
+        "position_y": 250.0,
+        "data_json": {
+          "name": "Greeter Agent",
+          "system_prompt": "You are a friendly, multilingual customer support greeter. Detect the caller's spoken language (English, Bengali, Hindi, Hinglish, Marathi, etc.) and greet them warmly. Offer a concise main menu and route the caller to the appropriate specialist agent based on their intent.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-2",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 450.0,
+        "position_y": 250.0,
+        "data_json": {
+          "name": "Order Status Agent",
+          "system_prompt": "You are a real‑time order tracking specialist. Detect the caller's language and provide up‑to‑date package tracking and delivery updates using the order ID or phone number.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-3",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 800.0,
+        "position_y": 250.0,
+        "data_json": {
+          "name": "Cancellation & Change Agent",
+          "system_prompt": "You are an order modification expert. Detect the caller's language and handle order changes or cancellations instantly, ensuring all policies are followed.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-4",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 1150.0,
+        "position_y": 250.0,
+        "data_json": {
+          "name": "Returns & Refunds Agent",
+          "system_prompt": "You are a returns and refunds specialist. Detect the caller's language and generate return labels, process store credit, and handle refund requests efficiently.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-5",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 100.0,
+        "position_y": 480.0,
+        "data_json": {
+          "name": "Product Recommendation Agent",
+          "system_prompt": "You are a product knowledge expert. Detect the caller's language and provide size guides, product specifications, and stock availability to help them make informed purchases.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-6",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 450.0,
+        "position_y": 480.0,
+        "data_json": {
+          "name": "Payments & Checkout Agent",
+          "system_prompt": "You are a payment gateway specialist. Detect the caller's language and resolve failed transactions, apply promo codes, and troubleshoot payment issues.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-7",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 800.0,
+        "position_y": 480.0,
+        "data_json": {
+          "name": "Subscription & Loyalty Agent",
+          "system_prompt": "You are a loyalty program manager. Detect the caller's language and explain VIP rewards, subscription boxes, and membership perks.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-8",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 1150.0,
+        "position_y": 480.0,
+        "data_json": {
+          "name": "Fraud & Account Security Agent",
+          "system_prompt": "You are a security specialist. Detect the caller's language and handle suspicious logins, password resets, and compromised account alerts.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-9",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 100.0,
+        "position_y": 710.0,
+        "data_json": {
+          "name": "Technical Website Support Agent",
+          "system_prompt": "You are a technical support engineer. Detect the caller's language and resolve mobile app crashes, cart checkout bugs, and site navigation issues.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-10",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 450.0,
+        "position_y": 710.0,
+        "data_json": {
+          "name": "Wholesale & B2B Sales Agent",
+          "system_prompt": "You are a B2B sales specialist. Detect the caller's language and assist with bulk orders, corporate gifting, and tax‑exempt purchasing.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-11",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 800.0,
+        "position_y": 710.0,
+        "data_json": {
+          "name": "Feedback & Complaints Agent",
+          "system_prompt": "You are a customer feedback coordinator. Detect the caller's language and log reviews, handle complaints, and capture constructive feedback.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w2_n-agent-12",
+        "workflow_id": 2,
+        "type": "agentNode",
+        "position_x": 1150.0,
+        "position_y": 710.0,
+        "data_json": {
+          "name": "Live Manager Escalation Agent",
+          "system_prompt": "You are a live manager escalation specialist. Detect the caller's language and handle angry callers, de‑escalate situations, and transfer to a live customer care lead.",
+          "use_rag": false
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "w2_e-start-greeter_0",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-start",
+        "target_node_id": "w2_n-agent-1",
+        "condition": "Call initiated",
+        "label": "Call initiated"
+      },
+      {
+        "id": "w2_e-greeter-orderstatus_1",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-2",
+        "condition": "Caller asks about order status",
+        "label": "Caller asks about order status"
+      },
+      {
+        "id": "w2_e-greeter-cancellation_2",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-3",
+        "condition": "Caller wants to cancel or change order",
+        "label": "Caller wants to cancel or change order"
+      },
+      {
+        "id": "w2_e-greeter-returns_3",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-4",
+        "condition": "Caller wants a return or refund",
+        "label": "Caller wants a return or refund"
+      },
+      {
+        "id": "w2_e-greeter-recommendation_4",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-5",
+        "condition": "Caller asks for product recommendation",
+        "label": "Caller asks for product recommendation"
+      },
+      {
+        "id": "w2_e-greeter-payments_5",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-6",
+        "condition": "Caller has payment or checkout issue",
+        "label": "Caller has payment or checkout issue"
+      },
+      {
+        "id": "w2_e-greeter-subscription_6",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-7",
+        "condition": "Caller inquires about subscription or loyalty",
+        "label": "Caller inquires about subscription or loyalty"
+      },
+      {
+        "id": "w2_e-greeter-security_7",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-8",
+        "condition": "Caller reports suspicious activity or needs password reset",
+        "label": "Caller reports suspicious activity or needs password reset"
+      },
+      {
+        "id": "w2_e-greeter-technical_8",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-9",
+        "condition": "Caller reports technical website or app issue",
+        "label": "Caller reports technical website or app issue"
+      },
+      {
+        "id": "w2_e-greeter-wholesale_9",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-10",
+        "condition": "Caller wants wholesale or B2B services",
+        "label": "Caller wants wholesale or B2B services"
+      },
+      {
+        "id": "w2_e-greeter-feedback_10",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-11",
+        "condition": "Caller wants to give feedback or file a complaint",
+        "label": "Caller wants to give feedback or file a complaint"
+      },
+      {
+        "id": "w2_e-greeter-escalation_11",
+        "workflow_id": 2,
+        "source_node_id": "w2_n-agent-1",
+        "target_node_id": "w2_n-agent-12",
+        "condition": "Caller is angry or requires live manager",
+        "label": "Caller is angry or requires live manager"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Brother Full Support Graph",
+    "description": "Generated from user diagram",
+    "is_active": true,
+    "created_at": "2026-08-24T10:23:01.664799",
+    "updated_at": "2026-08-27T07:07:32.830522",
+    "nodes": [
+      {
+        "id": "n-start",
+        "workflow_id": 3,
+        "type": "startNode",
+        "position_x": 400.0,
+        "position_y": 150.0,
+        "data_json": {}
+      },
+      {
+        "id": "n-csa",
+        "workflow_id": 3,
+        "type": "agentNode",
+        "position_x": 100.0,
+        "position_y": 50.0,
+        "data_json": {
+          "name": "Complaint Status Agent",
+          "system_prompt": "You handle complaint status and tracking for Brother printers.\nUNIVERSAL LANGUAGE DIRECTIVE:\n1. Automatically detect the language and dialect used by the caller in their utterance (e.g. English, Bengali, Hindi, Hinglish, Banglish, Marathi, Tamil, etc.).\n2. You MUST ALWAYS generate your spoken response in the EXACT SAME language and dialect that the caller spoke in. If they speak Bengali, respond in Bengali. If they speak Hindi, respond in Hindi. If they speak English, respond in English.\n3. If the caller switches languages mid-conversation, dynamically switch your spoken response to match their new language immediately!\nWORKFLOW:\n1. Ask the customer for their 8-digit Complaint Number or registered phone number.\n2. If they are calling about an engineer delay, express deep empathy: \"Oh, I'm so sorry to hear the engineer hasn't arrived yet... let me check that for you.\"\n3. Once they provide the details, confirm you are checking it.\nAlways end your response with a short, polite question to keep the conversation flowing.",
+          "tools": ["get_symphony_ticket_status", "list_symphony_incidents", "check_complaint_status"],
+          "use_rag": true
+        }
+      },
+      {
+        "id": "n-amc",
+        "workflow_id": 3,
+        "type": "agentNode",
+        "position_x": 700.0,
+        "position_y": 100.0,
+        "data_json": {
+          "name": "AMC & Sales Agent",
+          "system_prompt": "You handle AMC (Annual Maintenance Contract) plans, quotations, and sales enquiries.\nUNIVERSAL LANGUAGE DIRECTIVE:\n1. Automatically detect the language and dialect used by the caller in their utterance (e.g. English, Bengali, Hindi, Hinglish, Banglish, Marathi, Tamil, etc.).\n2. You MUST ALWAYS generate your spoken response in the EXACT SAME language and dialect that the caller spoke in. If they speak Bengali, respond in Bengali. If they speak Hindi, respond in Hindi. If they speak English, respond in English.\n3. If the caller switches languages mid-conversation, dynamically switch your spoken response to match their new language immediately!\nWORKFLOW:\n1. Warmly offer to help with their AMC or sales request.\n2. Step-by-step, collect the following details (ask for only one at a time):\n   - Customer or Company Name\n   - Printer model(s)\n   - Quantity of devices\n   - City/Location\n3. After collecting all details, confirm the information and inform them that a sales executive will email a formal quotation.\nAlways end your response with a short, polite question.",
+          "use_rag": true
+        }
+      },
+      {
+        "id": "n-wa",
+        "workflow_id": 3,
+        "type": "agentNode",
+        "position_x": 900.0,
+        "position_y": 400.0,
+        "data_json": {
+          "name": "Warranty Agent",
+          "system_prompt": "You handle warranty queries and warranty validation.\nUNIVERSAL LANGUAGE DIRECTIVE:\n1. Automatically detect the language and dialect used by the caller in their utterance (e.g. English, Bengali, Hindi, Hinglish, Banglish, Marathi, Tamil, etc.).\n2. You MUST ALWAYS generate your spoken response in the EXACT SAME language and dialect that the caller spoke in. If they speak Bengali, respond in Bengali. If they speak Hindi, respond in Hindi. If they speak English, respond in English.\n3. If the caller switches languages mid-conversation, dynamically switch your spoken response to match their new language immediately!\nWORKFLOW:\n1. Offer to check or register their warranty status.\n2. Step-by-step, collect the following details (ask for only one at a time):\n   - Printer model\n   - Serial number (usually 9 characters on the back/under the lid)\n   - Purchase date or invoice number\n3. Let them know you're checking the warranty validation in the system.\nAlways end your response with a short, polite question.",
+          "use_rag": true
+        }
+      },
+      {
+        "id": "n-gia",
+        "workflow_id": 3,
+        "type": "agentNode",
+        "position_x": 500.0,
+        "position_y": 500.0,
+        "data_json": {
+          "name": "General Inquiry Agent",
+          "system_prompt": "You handle general customer enquiries about Brother printers, services, or STL Digital support.\nUNIVERSAL LANGUAGE DIRECTIVE:\n1. Automatically detect the language and dialect used by the caller in their utterance (e.g. English, Bengali, Hindi, Hinglish, Banglish, Marathi, Tamil, etc.).\n2. You MUST ALWAYS generate your spoken response in the EXACT SAME language and dialect that the caller spoke in. If they speak Bengali, respond in Bengali. If they speak Hindi, respond in Hindi. If they speak English, respond in English.\n3. If the caller switches languages mid-conversation, dynamically switch your spoken response to match their new language immediately!\nWORKFLOW:\n1. Answer general questions politely using the knowledge base.\n2. If the user's inquiry requires specialized support (technical support, warranty, AMC), let them know and transition them smoothly.\nAlways end your response with a short, polite question.",
+          "tools": ["create_symphony_ticket", "get_symphony_ticket_status", "list_symphony_incidents", "check_complaint_status"],
+          "use_rag": true
+        }
+      },
+      {
+        "id": "n-tsa",
+        "workflow_id": 3,
+        "type": "agentNode",
+        "position_x": 400.0,
+        "position_y": 750.0,
+        "data_json": {
+          "name": "Technical Support Agent",
+          "system_prompt": "You handle technical troubleshooting and installation support for Brother printers (WiFi offline, paper jams, print quality, driver issues).\nUNIVERSAL LANGUAGE DIRECTIVE:\n1. Automatically detect the language and dialect used by the caller in their utterance (e.g. English, Bengali, Hindi, Hinglish, Banglish, Marathi, Tamil, etc.).\n2. You MUST ALWAYS generate your spoken response in the EXACT SAME language and dialect that the caller spoke in. If they speak Bengali, respond in Bengali. If they speak Hindi, respond in Hindi. If they speak English, respond in English.\n3. If the caller switches languages mid-conversation, dynamically switch your spoken response to match their new language immediately!\nWORKFLOW:\n1. Acknowledge their technical issue empathetically: \"Oh, that's really frustrating... let's see if we can troubleshoot this together.\"\n2. Guide them step-by-step. Give exactly ONE troubleshooting instruction at a time.\n3. After each instruction, ask if it worked or what lights/errors they see.\nKeep instructions very simple and easy to perform over a phone call.\nAlways end your response with a short, polite question.",
+          "tools": ["create_symphony_ticket", "get_symphony_ticket_status"],
+          "use_rag": true
+        }
+      },
+      {
+        "id": "n-esc",
+        "workflow_id": 3,
+        "type": "agentNode",
+        "position_x": 50.0,
+        "position_y": 400.0,
+        "data_json": {
+          "name": "Escalation Agent",
+          "system_prompt": "You handle escalated complaints and angry customers.\nUNIVERSAL LANGUAGE DIRECTIVE:\n1. Automatically detect the language and dialect used by the caller in their utterance (e.g. English, Bengali, Hindi, Hinglish, Banglish, Marathi, Tamil, etc.).\n2. You MUST ALWAYS generate your spoken response in the EXACT SAME language and dialect that the caller spoke in. If they speak Bengali, respond in Bengali. If they speak Hindi, respond in Hindi. If they speak English, respond in English.\n3. If the caller switches languages mid-conversation, dynamically switch your spoken response to match their new language immediately!\nWORKFLOW:\n1. Express deep, sincere empathy for their frustration: \"Oh dear, I am so sorry we haven't resolved this for you. I completely understand why you're upset. Let me transfer you directly to a senior supervisor who can sort this out immediately.\"\n2. Do not ask for further details or delay the call. Prepare them for transfer.\nAlways end your response politely.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "n-transfer",
+        "workflow_id": 3,
+        "type": "toolNode",
+        "position_x": 100.0,
+        "position_y": 750.0,
+        "data_json": {
+          "toolName": "Transfer Call (+91 97643 67506)"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-start-gia-3",
+        "workflow_id": 3,
+        "source_node_id": "n-start",
+        "target_node_id": "n-gia",
+        "condition": "Default entrypoint",
+        "label": "Incoming Call Intake"
+      },
+      {
+        "id": "e-gia-tsa-3",
+        "workflow_id": 3,
+        "source_node_id": "n-gia",
+        "target_node_id": "n-tsa",
+        "condition": "Paper jam, print quality, Wi-Fi, hardware error, or driver issue",
+        "label": "Technical Troubleshooting"
+      },
+      {
+        "id": "e-gia-wa-3",
+        "workflow_id": 3,
+        "source_node_id": "n-gia",
+        "target_node_id": "n-wa",
+        "condition": "Warranty coverage, serial number check, extended warranty, or AMC contract",
+        "label": "Warranty & AMC"
+      },
+      {
+        "id": "e-gia-csa-3",
+        "workflow_id": 3,
+        "source_node_id": "n-gia",
+        "target_node_id": "n-csa",
+        "condition": "Check complaint status, existing ticket update, or service center visit",
+        "label": "Complaint Tracking"
+      },
+      {
+        "id": "e-gia-esc-3",
+        "workflow_id": 3,
+        "source_node_id": "n-gia",
+        "target_node_id": "n-esc",
+        "condition": "Caller demands human manager, supervisor, or live agent transfer",
+        "label": "Escalate to Manager"
+      },
+      {
+        "id": "e-tsa-esc-3",
+        "workflow_id": 3,
+        "source_node_id": "n-tsa",
+        "target_node_id": "n-esc",
+        "condition": "Unresolved hardware failure or caller demands human manager",
+        "label": "Escalate Hardware Failure"
+      },
+      {
+        "id": "e-wa-esc-3",
+        "workflow_id": 3,
+        "source_node_id": "n-wa",
+        "target_node_id": "n-esc",
+        "condition": "Warranty dispute or caller demands human manager",
+        "label": "Escalate Warranty Dispute"
+      },
+      {
+        "id": "e-csa-esc-3",
+        "workflow_id": 3,
+        "source_node_id": "n-csa",
+        "target_node_id": "n-esc",
+        "condition": "Unresolved complaint or caller demands human manager",
+        "label": "Escalate Unresolved Complaint"
+      },
+      {
+        "id": "e-esc-transfer-3",
+        "workflow_id": 3,
+        "source_node_id": "n-esc",
+        "target_node_id": "n-transfer",
+        "condition": "Transfer call to human supervisor",
+        "label": "Live Telephony Transfer"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "new workflow",
+    "description": null,
+    "is_active": false,
+    "created_at": "2026-08-24T12:05:43.996726",
+    "updated_at": "2026-08-26T08:04:55.064011",
+    "nodes": [
+      {
+        "id": "w4_n-start",
+        "workflow_id": 4,
+        "type": "startNode",
+        "position_x": 516.0000000000001,
+        "position_y": 163.0,
+        "data_json": {
+          "name": "Start"
+        }
+      },
+      {
+        "id": "w4_n-agent-1787573110438",
+        "workflow_id": 4,
+        "type": "agentNode",
+        "position_x": 812.0,
+        "position_y": 139.99999999999997,
+        "data_json": {
+          "name": "warranty agent",
+          "system_prompt": "needs to solve anything related to warranty issues",
+          "use_rag": false,
+          "voice": "default"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "w4_e-n-start-n-agent-1787573110438-1787573141974_0_0",
+        "workflow_id": 4,
+        "source_node_id": "w4_n-start",
+        "target_node_id": "w4_n-agent-1787573110438",
+        "condition": "",
+        "label": ""
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Comprehensive Banking Workflow",
+    "description": null,
+    "is_active": false,
+    "created_at": "2026-08-25T09:02:39.790970",
+    "updated_at": "2026-08-26T08:04:55.064011",
+    "nodes": [
+      {
+        "id": "w6_n-start",
+        "workflow_id": 6,
+        "type": "startNode",
+        "position_x": 80.0,
+        "position_y": 1200.0,
+        "data_json": {
+          "name": "Start"
+        }
+      },
+      {
+        "id": "w6_n-agent-1",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 671.0,
+        "position_y": 2282.0,
+        "data_json": {
+          "name": "Account Opening Agent",
+          "system_prompt": "You are the Account Opening Agent. You assist customers with opening new bank accounts. Provide clear instructions, ask for necessary documents, verify identity, and guide through the process. Auto‑detect and respond in the caller's spoken language (English, Bengali, Hindi, Hinglish, Marathi, etc.).",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-2",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 2040.0,
+        "data_json": {
+          "name": "Balance Inquiry Agent",
+          "system_prompt": "You are the Balance Inquiry Agent. You help customers check their account balances. Verify identity, retrieve balance, and provide the information. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-3",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 1760.0,
+        "data_json": {
+          "name": "Fund Transfer Agent",
+          "system_prompt": "You are the Fund Transfer Agent. You facilitate fund transfers between accounts. Verify identity, confirm transfer details, and execute the transfer. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-4",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 1480.0,
+        "data_json": {
+          "name": "Loan Application Agent",
+          "system_prompt": "You are the Loan Application Agent. You guide customers through loan applications, gather required information, and provide eligibility criteria. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-5",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 1200.0,
+        "data_json": {
+          "name": "Credit Card Application Agent",
+          "system_prompt": "You are the Credit Card Application Agent. You assist customers with credit card applications, explain benefits, and collect necessary details. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-6",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 920.0,
+        "data_json": {
+          "name": "Dispute Resolution Agent",
+          "system_prompt": "You are the Dispute Resolution Agent. You handle disputes regarding transactions, refunds, or services. Gather details, investigate, and provide resolution steps. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-7",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 640.0,
+        "data_json": {
+          "name": "Fraud Detection Agent",
+          "system_prompt": "You are the Fraud Detection Agent. You investigate suspicious activities reported by customers, verify details, and take appropriate action. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-8",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 360.0,
+        "data_json": {
+          "name": "Compliance Agent",
+          "system_prompt": "You are the Compliance Agent. You answer regulatory and compliance‑related questions, provide policy information, and ensure adherence to banking regulations. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-9",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 610.0,
+        "position_y": 80.0,
+        "data_json": {
+          "name": "Customer Support Agent",
+          "system_prompt": "You are the Customer Support Agent. You handle general inquiries, provide information on banking products, and assist with miscellaneous requests. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "w6_n-agent-10",
+        "workflow_id": 6,
+        "type": "agentNode",
+        "position_x": 1140.0,
+        "position_y": 1200.0,
+        "data_json": {
+          "name": "Closing Agent",
+          "system_prompt": "You are the Closing Agent. You wrap up the conversation, confirm satisfaction, and provide next steps or contact information. Auto‑detect and respond in the caller's spoken language.",
+          "use_rag": false
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "w6_e-start-account_0",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-1",
+        "condition": "Caller wants to open an account",
+        "label": "Caller wants to open an account"
+      },
+      {
+        "id": "w6_e-start-balance_1",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-2",
+        "condition": "Caller wants balance information",
+        "label": "Caller wants balance information"
+      },
+      {
+        "id": "w6_e-start-transfer_2",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-3",
+        "condition": "Caller wants to transfer funds",
+        "label": "Caller wants to transfer funds"
+      },
+      {
+        "id": "w6_e-start-loan_3",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-4",
+        "condition": "Caller wants a loan",
+        "label": "Caller wants a loan"
+      },
+      {
+        "id": "w6_e-start-credit_4",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-5",
+        "condition": "Caller wants a credit card",
+        "label": "Caller wants a credit card"
+      },
+      {
+        "id": "w6_e-start-dispute_5",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-6",
+        "condition": "Caller has a dispute",
+        "label": "Caller has a dispute"
+      },
+      {
+        "id": "w6_e-start-fraud_6",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-7",
+        "condition": "Caller reports suspicious activity",
+        "label": "Caller reports suspicious activity"
+      },
+      {
+        "id": "w6_e-start-compliance_7",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-8",
+        "condition": "Caller has regulatory question",
+        "label": "Caller has regulatory question"
+      },
+      {
+        "id": "w6_e-start-general_8",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-start",
+        "target_node_id": "w6_n-agent-9",
+        "condition": "Other inquiries",
+        "label": "Other inquiries"
+      },
+      {
+        "id": "w6_e-account-close_9",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-1",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-balance-close_10",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-2",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-transfer-close_11",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-3",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-loan-close_12",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-4",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-credit-close_13",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-5",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-dispute-close_14",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-6",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-fraud-close_15",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-7",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-compliance-close_16",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-8",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      },
+      {
+        "id": "w6_e-general-close_17",
+        "workflow_id": 6,
+        "source_node_id": "w6_n-agent-9",
+        "target_node_id": "w6_n-agent-10",
+        "condition": "",
+        "label": ""
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "scheduler",
+    "description": "Custom Multi-Agent AI Workflow",
+    "is_active": false,
+    "created_at": "2026-08-25T10:53:21.968384",
+    "updated_at": "2026-08-26T08:04:55.064011",
+    "nodes": [
+      {
+        "id": "start-7",
+        "workflow_id": 7,
+        "type": "startNode",
+        "position_x": 100.0,
+        "position_y": 150.0,
+        "data_json": {
+          "name": "Start",
+          "label": "Start"
+        }
+      },
+      {
+        "id": "agent-primary-7",
+        "workflow_id": 7,
+        "type": "agentNode",
+        "position_x": 420.0,
+        "position_y": 120.0,
+        "data_json": {
+          "name": "scheduler",
+          "system_prompt": "You are the primary AI voice agent for scheduler. Assist customers clearly and concisely.",
+          "voice": "Aarohi",
+          "llm": "groq",
+          "use_rag": false
+        }
+      },
+      {
+        "id": "tool-transfer-7",
+        "workflow_id": 7,
+        "type": "toolNode",
+        "position_x": 780.0,
+        "position_y": 200.0,
+        "data_json": {
+          "toolName": "Transfer Call (+91 97643 67506)"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-start-agent-7",
+        "workflow_id": 7,
+        "source_node_id": "start-7",
+        "target_node_id": "agent-primary-7",
+        "condition": "Default entrypoint",
+        "label": "Call Connected"
+      },
+      {
+        "id": "e-agent-transfer-7",
+        "workflow_id": 7,
+        "source_node_id": "agent-primary-7",
+        "target_node_id": "tool-transfer-7",
+        "condition": "Customer demands human supervisor",
+        "label": "Customer requests human agent"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Incident Management System",
+    "description": null,
+    "is_active": false,
+    "created_at": "2026-08-26T08:04:17.299131",
+    "updated_at": "2026-08-27T07:07:32.830524",
+    "nodes": [
+      {
+        "id": "w8_sym-start-8",
+        "workflow_id": 8,
+        "type": "startNode",
+        "position_x": 100.0,
+        "position_y": 200.0,
+        "data_json": {
+          "name": "Start Ingest",
+          "description": "Initiates Incident Management System Triage"
+        }
+      },
+      {
+        "id": "w8_sym-agent-8",
+        "workflow_id": 8,
+        "type": "agentNode",
+        "position_x": 450.0,
+        "position_y": 200.0,
+        "data_json": {
+          "name": "Incident Management Assistant",
+          "domain": "incident",
+          "system_prompt": "You are the Incident Management Assistant on the IT service desk phone line. You are calm, warm and capable, like an experienced service-desk analyst. You help callers with IT incidents: outages, hardware faults, software bugs and access problems. Understand the problem and its impact, offer practical first-line help when it makes sense, and raise a ticket with the right priority once you have the details. You never invent ticket numbers, response times or notifications.",
+          "tools": [
+            "create_symphony_ticket",
+            "transfer_to_human"
+          ],
+          "use_rag": true,
+          "kb_docs": [
+            "printer_paper_jam_sop.md",
+            "wifi_enterprise_wpa2_sop.md",
+            "vpn_cisco_anyconnect_sop.md",
+            "email_outlook_exchange_sop.md",
+            "erp_password_reset_sop.md",
+            "laptop_bitlocker_recovery_sop.md",
+            "database_troubleshooting_sop.md"
+          ]
+        }
+      },
+      {
+        "id": "w8_sym-tool-8",
+        "workflow_id": 8,
+        "type": "toolNode",
+        "position_x": 800.0,
+        "position_y": 200.0,
+        "data_json": {
+          "name": "Symphony Cloud Function Ticket Creator",
+          "toolName": "create_symphony_ticket",
+          "description": "Calls GCP Cloud Function API to raise a ticket in Symphony"
+        }
+      },
+      {
+        "id": "w8_sym-esc-8",
+        "workflow_id": 8,
+        "type": "toolNode",
+        "position_x": 800.0,
+        "position_y": 400.0,
+        "data_json": {
+          "name": "Escalate to IT Duty Manager",
+          "toolName": "transfer_to_human",
+          "description": "Transfers critical P1 outages to IT Duty Manager"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "w8_sym-e1-8_0",
+        "workflow_id": 8,
+        "source_node_id": "w8_sym-start-8",
+        "target_node_id": "w8_sym-agent-8",
+        "condition": "Initial Contact",
+        "label": "Initial Contact"
+      },
+      {
+        "id": "w8_sym-e2-8_1",
+        "workflow_id": 8,
+        "source_node_id": "w8_sym-agent-8",
+        "target_node_id": "w8_sym-tool-8",
+        "condition": "Raise Ticket / Log Incident / Create Symphony Ticket",
+        "label": "Raise Ticket / Log Incident / Create Symphony Ticket"
+      },
+      {
+        "id": "w8_sym-e3-8_2",
+        "workflow_id": 8,
+        "source_node_id": "w8_sym-agent-8",
+        "target_node_id": "w8_sym-esc-8",
+        "condition": "Explicit Request for Human Agent Transfer",
+        "label": "Explicit Request for Human Agent Transfer"
+      }
+    ]
+  }
+]

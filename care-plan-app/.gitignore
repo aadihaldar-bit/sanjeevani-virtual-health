@@ -1,0 +1,35 @@
+# Environment & Secrets
+.env
+*.env
+!.env.example
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs & Temporary Files
+*.log
+scratch/
+
+# Vitals check: local caches and per-device calibration
+vitals/cache/
+vitals/calibration/
+
+# Care alert queue (runtime data)
+data/
+patient_records/
+

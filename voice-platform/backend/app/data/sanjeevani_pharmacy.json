@@ -1,0 +1,18 @@
+{
+  "note": "DEMO VALUES for the Sanjeevani recording. Prices and the one-line explanations are made up; a pharmacist must approve both before any real order.",
+  "currency": "AED",
+  "delivery_fee": 15,
+  "free_delivery_over": 100,
+  "delivery_windows": ["10:00-12:00", "16:00-18:00"],
+  "catalogue": [
+    {"name": "Crocin DS Syrup", "aliases": ["crocin"], "price": 18, "pack": "60 ml bottle", "about": "A paracetamol syrup for fever and mild pain in children."},
+    {"name": "Meftal-P Syrup", "aliases": ["meftal"], "price": 22, "pack": "60 ml bottle", "about": "A syrup for pain and fever in children. It also contains paracetamol."},
+    {"name": "Ephodrex Syrup", "aliases": ["ephodrex"], "price": 28, "pack": "100 ml bottle", "about": "A syrup for cough and chest congestion."},
+    {"name": "Paracetamol 500 mg", "aliases": ["paracetamol", "panadol"], "price": 8, "pack": "strip of 10 tablets", "about": "A tablet for fever and mild pain."},
+    {"name": "Amoxicillin 500 mg", "aliases": ["amoxicillin", "augmentin"], "price": 36, "pack": "strip of 10 capsules", "about": "An antibiotic for bacterial infections. It must be finished as prescribed."},
+    {"name": "Cetirizine 10 mg", "aliases": ["cetirizine", "zyrtec"], "price": 12, "pack": "strip of 10 tablets", "about": "A tablet for allergies, itching and a runny nose."},
+    {"name": "Ibuprofen 400 mg", "aliases": ["ibuprofen", "brufen"], "price": 14, "pack": "strip of 10 tablets", "about": "A tablet for pain and inflammation, taken after food."},
+    {"name": "Omeprazole 20 mg", "aliases": ["omeprazole", "losec"], "price": 30, "pack": "strip of 14 capsules", "about": "A capsule that reduces stomach acid, taken before a meal."},
+    {"name": "Oral Rehydration Salts", "aliases": ["ors", "oral rehydration"], "price": 6, "pack": "box of 5 sachets", "about": "A powder mixed in water to replace fluids and salts after vomiting or loose motions."}
+  ]
+}

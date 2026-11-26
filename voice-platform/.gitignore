@@ -1,0 +1,94 @@
+# Root .gitignore
+node_modules/
+venv/
+.venv/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.env
+.env.local
+.vscode/
+.idea/
+*.log
+.next/
+dist/
+build/
+.coverage
+.pytest_cache/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+backend/agent.db
+backend/voice_agent.db
+backend/app.db
+
+# Downloaded Models
+models/
+microservices/llm/models/
+microservices/tts/models/
+microservices/rag/faiss_index/
+
+# Test Audio
+*.wav
+
+# Secrets
+secrets/
+
+# Scratch & Archives
+livekit_branch/
+livekit_branch.zip
+scratch/
+screenshot.png
+*.tsbuildinfo
+backend/scratch_db.py
+backend/check_prompt.py
+backend/check_tools.py
+backend/update_db.py
+backend/update_number.py
+backend/benchmark_concurrency.py
+
+# One-off scripts (not part of the app)
+analyze_kpis.py
+audit_pipeline.py
+check_vm_logs.py
+compute_kpi_metrics.py
+gcs_log_scanner.py
+generate_excel_tts.py
+generate_human_tts.py
+generate_mst_tts.py
+generate_tts.py
+link_tickets_and_reupload.py
+pipeline_tts.py
+query_simulator_logs.py
+run_backfill_calls.py
+sync_gcs_bucket.py
+temp_sheet.json
+test_gcs_cred.py
+test_hzl.py
+test_live_symptom_triage.py
+test_optimized_latency.py
+test_tts_speed.py
+test_user_key.py
+
+# Caches
+kpi_dashboard/cache/
+
+# Docs artifacts
+docs/superpowers/
+
+
+# KYC sidecar secrets
+kyc_service/kyc.env
+
+# RAG runtime data (embedded vector store, cached embedding models, upload registry)
+backend/qdrant_data/embedded_kb/
+backend/knowledge_base/.models/
+backend/knowledge_base/_registry.json
+
+# Local demo data pulled from the VM (scrubbed, but still not for git)
+.demo/
+backend/care_uploads/

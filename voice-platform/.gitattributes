@@ -1,0 +1,5 @@
+# PDFs are binary: never convert their line endings (it corrupts them)
+*.pdf binary
+*.png binary
+*.mp4 binary
+*.docx binary
